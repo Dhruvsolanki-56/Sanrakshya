@@ -55,12 +55,16 @@
 
     if (!menuOpen) {
       const storyEnd = sTop + span;
+      // past the hero the bar sits on its own paper, so text never runs underneath the logo;
+      // only inside the station's full-bleed scene is it left clear, as part of the frame
+      const pastHero = y > home.offsetHeight - innerHeight * 0.35;
+      const inStation = y > sTop - 10 && y < storyEnd - 10;
       nav.dataset.compact = String(y > innerHeight * 0.12);
-      nav.dataset.solid = String(y > storyEnd - 10);
+      nav.dataset.solid = String(pastHero && !inStation);
       const dy = y - lastY;
-      // Only hide once the reader is past the story; inside it the bar is part of the frame.
-      if (y > storyEnd + innerHeight * 0.3 && dy > 6) nav.dataset.hidden = 'true';
-      else if (dy < -6 || y <= storyEnd) nav.dataset.hidden = 'false';
+      // reading down, the bar steps out of the way; any scroll up brings it back
+      if (pastHero && !inStation && dy > 6 && y > innerHeight) nav.dataset.hidden = 'true';
+      else if (dy < -6 || !pastHero || inStation) nav.dataset.hidden = 'false';
     }
     lastY = y;
     ticking = false;
