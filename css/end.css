@@ -1,0 +1,122 @@
+/* ==========================================================================
+   Sanrakshya — the close of the page: questions, contact, footer
+   Still the same sheet of paper. Hairlines, serif questions, a form that feels
+   like writing on a card, and the name set large at the foot of the page.
+   ========================================================================== */
+
+/* ---- QUESTIONS ------------------------------------------------------------ */
+.faq { position: relative; z-index: 6; background: var(--paper); padding: clamp(110px, 16vh, 180px) var(--pad) clamp(80px, 12vh, 140px); }
+.faq__inner { max-width: 1320px; margin: 0 auto; display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); column-gap: 6vw; align-items: start; }
+.faq__head { position: sticky; top: calc(var(--nav-h) + 40px); display: grid; gap: 26px; }
+.faq__title { font: 300 clamp(40px, 4.4vw, 72px)/1 var(--serif); letter-spacing: -.026em; font-variation-settings: "opsz" 72; }
+.faq__list { border-top: 1px solid var(--line); }
+.q { position: relative; border-bottom: 1px solid var(--line); }
+.q::after { content: ""; position: absolute; left: 0; right: 0; bottom: -1px; height: 1px; background: var(--signal); transform: scaleX(0); transform-origin: 0 50%; transition: transform .9s var(--ease-out); }
+.q:hover::after, .q[open]::after { transform: none; }
+.q summary { list-style: none; cursor: pointer; display: grid; grid-template-columns: 1fr 28px; align-items: baseline; padding: 26px 0; }
+.q summary::-webkit-details-marker { display: none; }
+.q__n { font: 400 11px/1 var(--mono); color: var(--muted); letter-spacing: .04em; }
+.q__t { font: 300 clamp(21px, 1.85vw, 28px)/1.2 var(--serif); letter-spacing: -.012em; transition: transform .7s var(--ease-out); }
+.q summary:hover .q__t { transform: translateX(6px); }
+.q__x { position: relative; align-self: center; width: 14px; height: 14px; justify-self: end; }
+.q__x::before, .q__x::after { content: ""; position: absolute; left: 0; top: 50%; width: 14px; height: 1.2px; margin-top: -.6px; background: var(--ink); transition: transform .6s var(--ease-out); }
+.q__x::after { transform: rotate(90deg); }
+.q[open] .q__x::after { transform: rotate(0); }
+.q[open] .q__x::before { background: var(--signal); }
+.q[open] .q__x::after { background: var(--signal); }
+.q__a { overflow: hidden; }
+.q__a p { padding: 0 48px 30px 0; max-width: 62ch; font: 400 15.5px/1.65 var(--sans); color: var(--ink-2); }
+.js .q__a p { opacity: 0; transform: translateY(8px); transition: opacity .5s var(--ease-out), transform .7s var(--ease-out); }
+.js .q.is-open .q__a p { opacity: 1; transform: none; transition-delay: .1s; }
+
+/* ---- CONTACT -------------------------------------------------------------- */
+.contact { position: relative; z-index: 6; background: var(--paper); padding: clamp(100px, 14vh, 170px) var(--pad) clamp(110px, 16vh, 190px); }
+.contact__inner { max-width: 1320px; margin: 0 auto; display: grid; grid-template-columns: minmax(0, 6fr) minmax(0, 6fr); column-gap: 6vw; align-items: end; }
+.contact__lead { display: grid; gap: 26px; }
+.contact__title { font: 300 clamp(48px, 6.4vw, 108px)/.96 var(--serif); letter-spacing: -.034em; font-variation-settings: "opsz" 72; }
+.contact__lede { max-width: 40ch; font: 400 16px/1.6 var(--sans); color: var(--ink-2); }
+
+.form { display: grid; grid-template-columns: 1fr 1fr; gap: 26px 24px; padding: clamp(26px, 3vw, 40px); border-radius: 22px; background: #f4f1eb; box-shadow: inset 0 0 0 1px rgba(22, 21, 19, .055), 0 40px 80px -50px rgba(58, 42, 25, .45); }
+.form__who { grid-column: 1 / -1; position: relative; display: flex; flex-wrap: wrap; gap: 6px; margin: 0; padding: 0; border: 0; }
+.form__who legend { width: 100%; margin-bottom: 12px; font: 400 10.5px/1 var(--mono); letter-spacing: .06em; text-transform: uppercase; color: var(--muted); }
+.form__who label { position: relative; cursor: pointer; }
+.form__who input { position: absolute; opacity: 0; pointer-events: none; }
+.form__who span { display: block; padding: 10px 16px; border-radius: 99px; font: 400 14px/1 var(--sans); color: var(--ink-2); box-shadow: inset 0 0 0 1px var(--line); transition: background .5s var(--ease-out), color .5s var(--ease-out), box-shadow .5s; }
+.form__who label:hover span { box-shadow: inset 0 0 0 1px rgba(22, 21, 19, .35); }
+.form__who input:checked + span { background: var(--ink); color: var(--paper); box-shadow: none; }
+.form__who input:focus-visible + span { outline: 1px solid var(--signal); outline-offset: 3px; }
+.field { position: relative; display: grid; gap: 10px; }
+.field--wide { grid-column: 1 / -1; }
+.field > span { font: 400 10.5px/1 var(--mono); letter-spacing: .06em; text-transform: uppercase; color: var(--muted); transition: color .4s; }
+.field input, .field textarea { width: 100%; padding: 6px 0 12px; border: 0; border-radius: 0; background: none; color: var(--ink); font: 300 22px/1.3 var(--serif); resize: none; outline: none; box-shadow: inset 0 -1px 0 var(--line); }
+/* the underline draws in signal when the field is being written in */
+.field::after { content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 1.5px; background: var(--signal); transform: scaleX(0); transform-origin: 0 50%; transition: transform .8s var(--ease-out); }
+.field:focus-within::after { transform: none; }
+.field:focus-within > span { color: var(--ink); }
+.field.is-bad > span { color: var(--signal); }
+.form__end { grid-column: 1 / -1; display: flex; flex-wrap: wrap; align-items: center; gap: 14px 22px; margin-top: 6px; }
+.form__status { font: 400 12px/1.4 var(--mono); color: var(--ink-2); }
+.form__status.is-bad { color: var(--signal); }
+.form.is-sent .field, .form.is-sent .form__who { opacity: .45; pointer-events: none; transition: opacity .6s; }
+
+/* ---- FOOTER --------------------------------------------------------------- */
+.foot { position: relative; z-index: 6; background: var(--paper); padding: 0 var(--pad) 26px; overflow: hidden; }
+.foot__ruler { max-width: 1320px; height: 12px; margin: 0 auto; background:
+  linear-gradient(var(--line), var(--line)) 0 0 / 100% 1px no-repeat,
+  repeating-linear-gradient(90deg, rgba(22, 21, 19, .3) 0 1px, transparent 1px 12px) 0 0 / 100% 5px no-repeat,
+  repeating-linear-gradient(90deg, rgba(22, 21, 19, .45) 0 1px, transparent 1px 120px) 0 0 / 100% 11px no-repeat; }
+.foot__grid { max-width: 1320px; margin: 0 auto; padding: 64px 0 0; display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 2fr) minmax(0, 5fr); column-gap: 5vw; align-items: end; }
+.foot__brand { align-self: start; }
+.foot__line { font: 300 clamp(40px, 4.6vw, 76px)/1 var(--serif); letter-spacing: -.03em; font-variation-settings: "opsz" 72; max-width: 11ch; }
+.foot__by { margin-top: 22px; font: 400 13px/1.5 var(--sans); color: var(--ink-2); }
+.foot__mail { display: inline-flex; gap: 8px; margin-top: 30px; font: 400 15px/1.3 var(--sans); padding-bottom: 3px; background: linear-gradient(var(--ink), var(--ink)) 0 100% / 100% 1px no-repeat; transition: background-size .6s var(--ease-out); }
+.foot__mail:hover { background-image: linear-gradient(var(--signal), var(--signal)); }
+.foot__mail span { transition: transform .6s var(--ease-out); }
+.foot__mail:hover span { transform: translateX(4px); }
+.foot__nav { align-self: start; }
+.foot__nav ul { display: grid; gap: 10px; }
+.foot__nav a { display: inline-block; font: 400 15px/1.3 var(--sans); background: linear-gradient(var(--signal), var(--signal)) 0 100% / 0 1px no-repeat; transition: background-size .6s var(--ease-out); padding-bottom: 2px; }
+.foot__nav a:hover { background-size: 100% 1px; }
+
+/* the doorframe: a soft edge of shadow on the wall, pencil marks beside it, and the toy at its foot */
+.door { position: relative; margin: 0; height: clamp(420px, 56vh, 560px); }
+.door__frame { position: absolute; left: 24%; top: 0; bottom: 0; width: 16px; background: linear-gradient(90deg, rgba(58, 42, 25, .1), rgba(58, 42, 25, .025) 45%, rgba(255, 255, 255, .45) 62%, transparent); -webkit-mask-image: linear-gradient(transparent, #000 30%); mask-image: linear-gradient(transparent, #000 30%); }
+.door__marks { position: absolute; left: calc(24% + 16px); bottom: 0; height: 100%; width: auto; overflow: visible; }
+.door__marks path { fill: none; stroke: #4a4640; stroke-width: 1.7; stroke-linecap: round; stroke-dasharray: 1; stroke-dashoffset: 1; filter: url(#pencil); }
+.door__marks text { font: 400 23px 'Reenie Beanie', var(--serif); fill: #4a4640; opacity: 0; }
+.door__marks .now path { stroke: #3c3934; stroke-width: 2; }
+.door__marks .now text { fill: var(--signal); }
+.door.in .door__marks g path { stroke-dashoffset: 0; transition: stroke-dashoffset .7s cubic-bezier(.55, .1, .35, 1) var(--d); }
+.door.in .door__marks g text { opacity: .9; transition: opacity .8s var(--ease-out) calc(var(--d) + .4s); }
+.door.in .door__marks .now path { transition-duration: 1.4s; }
+.door__toy { position: absolute; right: 2%; bottom: 0; width: min(290px, 23vw); height: auto; mix-blend-mode: multiply; transform-origin: 38% 96%; cursor: default; }
+.door__toy.nod { animation: toy-nod 1.4s cubic-bezier(.3, 1.4, .5, 1); }
+@keyframes toy-nod { 20% { transform: rotate(-3.2deg); } 55% { transform: rotate(1.2deg); } 100% { transform: none; } }
+
+.foot__note { max-width: 1320px; margin: 36px auto 0; font: 400 11px/1.6 var(--mono); color: var(--muted); }
+.foot__note { max-width: min(1320px, 100%); }
+.foot__base { max-width: 1320px; margin: 22px auto 0; display: flex; justify-content: space-between; gap: 20px; flex-wrap: wrap; font: 400 11px/1.4 var(--mono); color: var(--muted); }
+.foot__base a:hover { color: var(--ink); }
+
+/* ---- Responsive ---------------------------------------------------------- */
+@media (max-width: 900px) {
+  .faq__inner, .contact__inner { grid-template-columns: 1fr; row-gap: 36px; }
+  .faq__head { position: static; }
+  .q summary { grid-template-columns: 1fr 24px; padding: 20px 0; }
+  .q__a p { padding: 0 0 24px; }
+  .form { grid-template-columns: 1fr; padding: 22px 18px; }
+  .foot__grid { grid-template-columns: 1fr 1fr; row-gap: 40px; }
+  .foot__brand { grid-column: 1 / -1; }
+  .door { grid-column: 1 / -1; height: 400px; }
+  .door__toy { width: min(230px, 52vw); right: 0; }
+  .door__frame { left: 8%; }
+  .door__marks { left: calc(8% + 16px); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .door__marks path { stroke-dashoffset: 0 !important; transition: none !important; }
+  .door__marks text { opacity: .9 !important; transition: none !important; }
+  .js .q__a p { opacity: 1; transform: none; transition: none; }
+}
+
+/* ---- the crayon signature: small, in the empty corner, written as you arrive ---- */
+.foot__sign { --stick: 96px; margin-top: clamp(40px, 8vh, 96px); width: min(320px, 100%); min-height: 92px; }

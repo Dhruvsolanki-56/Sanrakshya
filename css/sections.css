@@ -1,0 +1,237 @@
+/* ==========================================================================
+   Sanrakshya — For paediatricians, the spec sheet, and Public health
+   The two pinned stories sit on the same sheet of paper. Each one rises over the
+   end of the section before it through a paper gradient, so there is never a
+   hard edge between chapters.
+   ========================================================================== */
+
+/* ---- Shared: arriving over the previous section ----------------------------- */
+.clinic, .scale { position: relative; z-index: 4; margin-top: -55vh; }
+/* the paper rises in a soft band above the opaque stage, so no edge ever cuts across the previous chapter */
+.clinic::before, .scale::before {
+  content: ""; position: absolute; left: 0; right: 0; bottom: 100%; height: 38vh; pointer-events: none;
+  background: linear-gradient(transparent, color-mix(in srgb, var(--paper) 55%, transparent) 45%, var(--paper));
+}
+.clinic__stage, .scale__stage {
+  position: sticky; top: 0; height: 100vh; height: 100svh; overflow: hidden; background: var(--paper);
+  --enter: 1;
+  display: grid; align-items: center;
+}
+.clinic { height: 450vh; }
+.scale { height: 360vh; z-index: 5; }
+
+/* the copy column, shared rhythm */
+.clinic__copy, .scale__copy {
+  position: relative; z-index: 2; padding-left: var(--pad); max-width: 560px;
+  opacity: clamp(0, calc((var(--enter) - .35) * 2.4), 1);
+  transform: translate3d(0, calc((1 - var(--enter)) * 50px), 0);
+}
+.clinic__title, .scale__title {
+  margin-top: 26px; font: 300 clamp(40px, 4.4vw, 74px)/1.02 var(--serif); letter-spacing: -.026em; font-variation-settings: "opsz" 72;
+}
+.scale__lede { margin-top: 22px; max-width: 44ch; font: 400 16px/1.6 var(--sans); color: var(--ink-2); }
+
+/* beats: the numbered lines that light up with the scroll */
+.beats { margin-top: 34px; display: grid; gap: 12px; }
+.beats li {
+  display: flex; gap: 16px; align-items: baseline;
+  font: 400 15.5px/1.45 var(--sans); color: var(--muted);
+  transition: color .5s var(--ease-out), transform .6s var(--ease-out);
+}
+.beats li span { font: 400 11px/1 var(--mono); letter-spacing: .04em; min-width: 20px; }
+.beats li::before { content: ""; order: -1; align-self: center; width: 0; height: 1px; background: var(--signal); transition: width .6s var(--ease-out); }
+.beats li.on { color: var(--ink); }
+.beats li.on::before { width: 22px; }
+.beats li.done { color: var(--ink-2); }
+
+/* ==========================================================================
+   FOR PAEDIATRICIANS — the index and the growth chart
+   ========================================================================== */
+.clinic__stage { grid-template-columns: minmax(0, 560px) minmax(0, 1fr); column-gap: 3vw; }
+@media (max-width: 1240px) and (min-width: 901px) {
+  .clinic__stage { grid-template-columns: minmax(0, .9fr) minmax(0, 1.1fr); }
+  .sheet { width: calc(100% - var(--pad) * 1.6); }
+  .scale__field { -webkit-mask-image: radial-gradient(ellipse 64% 76% at 0% 100%, transparent 60%, #000 100%); mask-image: radial-gradient(ellipse 64% 76% at 0% 100%, transparent 60%, #000 100%); }
+}
+.clinic__lede { margin-top: 20px; max-width: 42ch; font: 400 16px/1.6 var(--sans); color: var(--ink-2); }
+
+/* the index: four chapters, the current one open, a hairline filling as it plays */
+.cap { margin-top: clamp(26px, 5vh, 48px); display: grid; border-top: 1px solid var(--line); }
+.cap__i {
+  position: relative; display: grid; grid-template-columns: 44px 1fr; grid-template-rows: auto 0fr; align-items: baseline;
+  width: 100%; padding: 16px 0 17px; text-align: left; color: var(--muted);
+  transition: grid-template-rows .7s var(--ease-out), color .5s var(--ease-out);
+}
+.cap__i[aria-selected="true"] { grid-template-rows: auto 1fr; color: var(--ink); }
+.cap__i.done { color: var(--ink-2); }
+.cap__n { font: 400 11px/1 var(--mono); letter-spacing: .04em; }
+.cap__t { font: 300 clamp(24px, 2.2vw, 34px)/1.05 var(--serif); letter-spacing: -.018em; transition: transform .7s var(--ease-out); }
+.cap__i:hover .cap__t { transform: translateX(6px); }
+.cap__d { grid-column: 2; overflow: hidden; min-height: 0; font: 400 14.5px/1.5 var(--sans); color: var(--ink-2); opacity: 0; transform: translateY(8px); transition: opacity .5s var(--ease-out), transform .7s var(--ease-out); }
+.cap__i[aria-selected="true"] .cap__d { opacity: 1; transform: none; transition-delay: .12s; padding-top: 8px; }
+.cap__bar { position: absolute; left: 0; right: 0; bottom: -1px; height: 1px; background: var(--line); }
+.cap__bar i { position: absolute; inset: 0; background: var(--ink); transform: scaleX(0); transform-origin: 0 50%; }
+.cap__i[aria-selected="true"] .cap__bar i { background: var(--signal); }
+
+/* the chart: a printed WHO height-for-age sheet lying on the paper wall, a little
+   askew, as if someone just put it down. The station fills it in. */
+.sheet {
+  --blue: #2f6aa3;
+  position: relative; z-index: 2; justify-self: center; margin: 0; width: min(640px, 46vw);
+  opacity: clamp(0, calc((var(--enter) - .4) * 2.4), 1);
+  transform: translate3d(0, calc((1 - var(--enter)) * 90px), 0) rotate(calc(-1.1deg - (1 - var(--enter)) * 3deg));
+}
+.sheet__paper {
+  position: relative; padding: 24px 26px 20px 44px; border-radius: 2px;
+  background:
+    linear-gradient(112deg, rgba(255, 255, 255, .55), rgba(255, 255, 255, 0) 38%, rgba(90, 64, 38, .035) 100%),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .35 0 0 0 0 .3 0 0 0 0 .25 0 0 0 .07 0'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)'/%3E%3C/svg%3E"),
+    #fbfaf5;
+  box-shadow: 0 1px 1px rgba(58, 42, 25, .12), 0 3px 6px -2px rgba(58, 42, 25, .12), 0 36px 60px -34px rgba(58, 42, 25, .5);
+}
+/* filing holes down the margin: the page lives in a clinic binder */
+.sheet__paper::before { content: ""; position: absolute; left: 13px; top: 18%; width: 12px; height: 64%; background: radial-gradient(circle at 6px 6px, #ddd6cb 0 4.2px, rgba(58, 42, 25, .18) 4.6px, transparent 5.4px) 0 0 / 12px 33.3% repeat-y; }
+.sheet__head { display: grid; grid-template-columns: 1fr auto; align-items: end; row-gap: 3px; padding-bottom: 10px; border-bottom: 2px solid var(--blue); }
+.sheet__head b { font: 400 22px/1.1 var(--serif); letter-spacing: -.01em; }
+.sheet__head b span { color: var(--blue); }
+.sheet__head small { grid-column: 1; font: 400 9.5px/1.3 var(--mono); letter-spacing: .04em; color: #6c7a88; text-transform: uppercase; }
+.sheet__who { grid-column: 2; grid-row: 1 / span 2; font: 400 21px/1 'Reenie Beanie', var(--serif); color: #2b3f6b; transform: rotate(-2deg); }
+
+.chart { display: block; width: 100%; height: auto; margin-top: 8px; overflow: visible; }
+.chart path, .chart line { fill: none; }
+.chart__grid line { stroke: rgba(47, 106, 163, .12); stroke-width: .6; }
+.chart__grid line.maj { stroke: rgba(47, 106, 163, .28); stroke-width: .8; }
+.chart__band { fill: rgba(47, 106, 163, .06) !important; stroke: none; opacity: .5; transition: opacity 1s var(--ease-out); }
+.chart__pct path { stroke: rgba(47, 106, 163, .55); stroke-width: 1; transition: stroke .8s var(--ease-out), stroke-width .8s; }
+.chart__pct path.m { stroke-width: 1.6; }
+.chart__pct text { font: 500 9px var(--mono); fill: var(--blue); opacity: .55; transition: opacity .8s; }
+.chart__axes text { font: 400 8.5px var(--mono); fill: #6c7a88; }
+.chart__axes text.t { font-size: 8px; letter-spacing: .06em; }
+.chart__kid { stroke: #2a2826; stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; stroke-dasharray: 1; stroke-dashoffset: calc(1 - var(--kid, 0)); }
+.chart__pts g { opacity: 0; transform: translateY(-10px); transition: opacity .35s, transform .7s cubic-bezier(.3, 1.6, .5, 1); transform-box: fill-box; }
+.chart__pts g.on { opacity: 1; transform: none; }
+.chart__pts circle { fill: #2a2826; }
+.chart__pts text { font: 400 8px var(--mono); fill: #6c7a88; }
+.chart__read line { stroke: var(--signal); stroke-width: 1; stroke-dasharray: 3 3; opacity: 0; transition: opacity .6s; }
+.chart__read text { font: 500 10px var(--mono); fill: var(--signal); opacity: 0; transition: opacity .6s .2s; }
+.chart__flag path { stroke: #d9502a; stroke-width: 3.6; stroke-linecap: round; stroke-dasharray: 1; stroke-dashoffset: 1; opacity: .9; mix-blend-mode: multiply; }
+.chart__flag path.b { stroke-width: 2.4; opacity: .55; }
+
+/* the sheet's states, one per chapter */
+.sheet.is-pct .chart__band { opacity: 1; }
+.sheet.is-pct .chart__pct path { stroke: rgba(47, 106, 163, .85); }
+.sheet.is-pct .chart__pct text { opacity: 1; }
+.sheet.is-pct .chart__read line, .sheet.is-pct .chart__read text { opacity: 1; }
+.sheet.is-flag .chart__flag path { stroke-dashoffset: 0; transition: stroke-dashoffset .9s cubic-bezier(.55, .1, .35, 1); }
+.sheet.is-flag .chart__flag path.b { transition-delay: .7s; transition-duration: .6s; }
+.sheet__tag { position: absolute; left: 44px; bottom: 16px; display: inline-flex; align-items: center; gap: 8px; font: 400 10.5px/1 var(--mono); color: var(--signal); opacity: 0; transform: translateY(6px); transition: opacity .6s, transform .8s var(--ease-out); }
+.sheet__tag i { width: 7px; height: 7px; border-radius: 50%; background: var(--signal); }
+.sheet.is-flag .sheet__tag { opacity: 1; transform: none; transition-delay: 1.1s; }
+
+/* a child waited here: a crayon spiral in the margin. Tap it and they draw it again. */
+.sheet__doodle { position: absolute; left: 96px; top: 96px; width: 46px; height: 46px; overflow: visible; cursor: pointer; mix-blend-mode: multiply; }
+.sheet__doodle path { fill: none; stroke: var(--dc, #2c6be0); stroke-width: 3; stroke-linecap: round; stroke-linejoin: round; stroke-dasharray: 1; stroke-dashoffset: 0; opacity: .7; filter: url(#crayon-flag); }
+.sheet__doodle.redraw path { animation: doodle 1.3s cubic-bezier(.55, .1, .35, 1) both; }
+.sheet__doodle.redraw path + path { animation-delay: 1s; animation-duration: .5s; }
+@keyframes doodle { from { stroke-dashoffset: 1; } to { stroke-dashoffset: 0; } }
+
+/* the note to the parents: a torn slip, taped on in pen */
+.note {
+  position: absolute; right: -5%; bottom: -9%; width: 250px; padding: 22px 20px 16px; z-index: 3;
+  background: #fffdf6; box-shadow: 0 1px 1px rgba(58, 42, 25, .12), 0 22px 36px -22px rgba(58, 42, 25, .55);
+  clip-path: polygon(0 3%, 7% 0, 18% 2%, 31% 0, 46% 2%, 60% 0, 74% 2%, 88% 0, 100% 2%, 100% 100%, 0 100%);
+  opacity: 0; transform: translate3d(30px, 40px, 0) rotate(9deg); transition: opacity .5s, transform 1.1s cubic-bezier(.2, 1.2, .3, 1);
+}
+.sheet.is-note .note { opacity: 1; transform: rotate(2.5deg); }
+.note__tape { position: absolute; left: 50%; top: -12px; width: 86px; height: 26px; transform: translateX(-50%) rotate(-4deg); background: rgba(236, 226, 205, .78); box-shadow: 0 1px 2px rgba(58, 42, 25, .12); }
+.note__hand { font: 400 25px/1.02 'Reenie Beanie', var(--serif); color: #23386a; }
+.note__sent { margin-top: 12px; display: flex; align-items: center; gap: 7px; font: 400 10px/1.3 var(--mono); color: var(--ink-2); opacity: 0; transition: opacity .6s 1s; }
+.note__sent i { flex: none; width: 7px; height: 7px; border-radius: 50%; background: #3f8a5c; }
+.sheet.is-note .note__sent { opacity: 1; }
+
+/* ==========================================================================
+   THE SPEC SHEET
+   ========================================================================== */
+.spec { position: relative; z-index: 4; background: var(--paper); padding: clamp(110px, 16vh, 180px) var(--pad) clamp(100px, 14vh, 160px); }
+.spec__inner { max-width: 1320px; margin: 0 auto; display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); column-gap: 6vw; align-items: start; }
+.spec__head { position: sticky; top: calc(var(--nav-h) + 40px); display: grid; justify-items: start; gap: 26px; }
+.spec__title { font: 300 clamp(40px, 4.4vw, 72px)/1 var(--serif); letter-spacing: -.026em; font-variation-settings: "opsz" 72; }
+.spec__list { margin: 0; }
+.spec__list > div { position: relative; display: grid; grid-template-columns: minmax(130px, 200px) 1fr; column-gap: 32px; padding: 26px 0 28px; }
+.spec__list > div::before { content: ""; position: absolute; left: 0; right: 0; top: 0; height: 1px; background: var(--line); transform-origin: 0 50%; }
+.spec__list dt { font: 400 11px/1.6 var(--mono); letter-spacing: .06em; text-transform: uppercase; color: var(--muted); }
+.spec__list dd { margin: 0; font: 300 clamp(20px, 1.65vw, 25px)/1.35 var(--serif); letter-spacing: -.008em; max-width: 34ch; }
+.spec__list > div:last-child dd { color: var(--ink-2); }
+.spec__list > div:last-child dt { color: var(--signal); }
+.js .spec__list > div::before { transform: scaleX(0); transition: transform 1.4s var(--ease-out) var(--d, 0s); }
+.js .spec__list > div > * { opacity: 0; transform: translate3d(0, 16px, 0); transition: opacity .9s var(--ease-out) calc(var(--d, 0s) + .15s), transform 1.1s var(--ease-out) calc(var(--d, 0s) + .15s); }
+.js .spec__list > div.in::before { transform: none; }
+.js .spec__list > div.in > * { opacity: 1; transform: none; }
+.spec + .scale { margin-top: 0; }
+.spec + .scale::before { display: none; }   /* no band needed: it rises out of the spec's own paper */
+
+.clinic__note, .scale__note { position: absolute; right: var(--pad); bottom: 24px; z-index: 2; font: 400 10.5px/1.4 var(--mono); color: var(--muted); }
+
+/* ==========================================================================
+   PUBLIC HEALTH: the field
+   ========================================================================== */
+.scale__stage { display: block; }
+/* the copy reads like the legend of a map, in the lower left; the field has the rest */
+.scale__copy { position: absolute; left: 0; bottom: max(64px, 9vh); max-width: calc(500px + var(--pad)); }
+.scale__field {
+  position: absolute; inset: 0; width: 100%; height: 100%; z-index: 1; opacity: clamp(0, calc((var(--enter) - .3) * 2), 1);
+  -webkit-mask-image: radial-gradient(ellipse 46% 70% at 0% 100%, transparent 58%, #000 100%); mask-image: radial-gradient(ellipse 46% 70% at 0% 100%, transparent 58%, #000 100%);
+}
+.scale__one { position: absolute; left: 0; top: 0; font: 400 11px/1 var(--mono); color: var(--signal); letter-spacing: .04em; white-space: nowrap; opacity: 0; transition: opacity .6s var(--ease-out); }
+.scale__one.on { opacity: 1; }
+/* one caption at a time, like a subtitle, instead of another numbered list */
+.beats--cap { position: relative; display: grid; margin-top: 26px; min-height: 3em; }
+.beats--cap li { grid-area: 1 / 1; display: block; max-width: 40ch; font: 400 17px/1.45 var(--sans); color: var(--ink); opacity: 0; transform: translate3d(0, 8px, 0); transition: opacity .5s var(--ease-out), transform .7s var(--ease-out); }
+.beats--cap li::before { display: none; }
+.beats--cap li.on { opacity: 1; transform: none; transition-delay: .15s; }
+.beats--cap li.done { opacity: 0; transform: translate3d(0, -8px, 0); color: var(--ink); }
+.scale__labels { position: absolute; inset: 0; z-index: 2; pointer-events: none; }
+.scale__label {
+  position: absolute; left: 0; top: 0; transform: translate(-50%, 0);
+  font: 400 10.5px/1 var(--mono); color: var(--ink-2); letter-spacing: .04em; white-space: nowrap;
+  opacity: 0; transition: opacity .5s var(--ease-out);
+}
+.scale__label.on { opacity: 1; }
+.scale__label.hot { color: var(--signal); }
+
+/* ==========================================================================
+   Responsive
+   ========================================================================== */
+@media (max-width: 900px) {
+  .clinic, .scale { margin-top: -35vh; }
+  .clinic__stage, .scale__stage { grid-template-columns: 1fr; align-content: start; padding-top: calc(var(--nav-h) + 2vh); gap: 18px; }
+  .clinic__copy, .scale__copy { padding-right: var(--pad); }
+  .clinic__title, .scale__title { font-size: clamp(30px, 8.6vw, 42px); margin-top: 14px; }
+  .beats { margin-top: 14px; gap: 6px; }
+  .beats li { font-size: 13.5px; display: none; }
+  .beats li.on { display: flex; }
+  .scale__lede { display: none; }
+  .scale__copy { position: relative; left: auto; bottom: auto; }
+  .scale__field { -webkit-mask-image: none; mask-image: none; }
+  .beats--cap li { display: block !important; font-size: 15px; }
+  .clinic__lede { display: none; }
+  .cap { margin-top: 16px; }
+  .cap__i { display: none; padding: 12px 0 14px; }
+  .cap__i[aria-selected="true"] { display: grid; }
+  .cap__t { font-size: 26px; }
+  .sheet { width: calc(100vw - var(--pad) * 2 + 8px); justify-self: center; margin-top: 4px; }
+  .sheet__paper { padding: 16px 14px 14px 28px; }
+  .sheet__paper::before { left: 7px; transform: scale(.8); }
+  .sheet__head b { font-size: 18px; }
+  .sheet__who { font-size: 18px; }
+  .sheet__tag { left: 28px; bottom: 10px; }
+  .note { width: 200px; right: -2%; bottom: -26%; padding: 18px 16px 12px; }
+  .note__hand { font-size: 21px; }
+  .spec__inner { grid-template-columns: 1fr; row-gap: 36px; }
+  .spec__head { position: static; }
+  .spec__list > div { grid-template-columns: 1fr; row-gap: 8px; padding: 20px 0 22px; }
+  .scale__copy .actions { display: none; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .sheet, .clinic__copy, .scale__copy { transform: none; }
+}

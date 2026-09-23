@@ -1,0 +1,596 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Sanrakshya — Preventive child health</title>
+<meta name="description" content="You see them grow. We see how well. Sanrakshya measures six signals of a child's health in one sitting and reads each against the last, and against WHO growth standards, so a change in course is seen early by parents and doctors alike.">
+<meta name="theme-color" content="#ECE8E1">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 22'%3E%3Cpath d='M3.5 1v20M3.5 17.5h5M3.5 12.5h6.5' stroke='%23161513' stroke-width='1.6' fill='none'/%3E%3Cpath d='M3.5 7h9' stroke='%23d4481e' stroke-width='1.6'/%3E%3C/svg%3E">
+<script>document.documentElement.classList.add('js');</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500&family=Geist+Mono:wght@400;500&family=Newsreader:ital,opsz,wght@0,6..72,300;0,6..72,400;1,6..72,300&family=Reenie+Beanie&display=swap">
+<link rel="stylesheet" href="css/site.css">
+<link rel="stylesheet" href="css/story.css">
+<link rel="stylesheet" href="css/parents.css">
+<link rel="stylesheet" href="css/bento.css">
+<link rel="stylesheet" href="css/sections.css">
+<link rel="stylesheet" href="css/end.css">
+<link rel="preload" as="image" href="assets/home-poster.webp" media="(min-width: 761px)" fetchpriority="high">
+<link rel="preload" as="image" href="assets/home-poster-m.webp" media="(max-width: 760px)">
+<script type="importmap">{"imports":{"three":"./vendor/three/three.module.min.js"}}</script>
+</head>
+<body>
+
+<!-- the loader: a crayon writes the name while the page gets ready -->
+<div class="loader" role="status" aria-label="Loading Sanrakshya">
+  <div class="loader__sign" aria-hidden="true"></div>
+  <p class="loader__line" aria-hidden="true">Getting ready <span>0%</span></p>
+</div>
+
+<a class="skip" href="#main">Skip to content</a>
+
+<!-- ─────────────────────────── NAVIGATION ─────────────────────────── -->
+<header class="nav" id="nav" data-compact="false" data-hidden="false" data-solid="false">
+  <div class="nav__bar">
+    <a class="nav__brand" href="#top" aria-label="Sanrakshya, home">
+      <svg class="nav__mark" viewBox="0 0 16 22" aria-hidden="true">
+        <path d="M3.5 1v20" />
+        <path d="M3.5 17.5h5M3.5 12.5h6.5" />
+        <path class="nav__mark-now" d="M3.5 7h9" />
+      </svg>
+      <span class="nav__word">Sanrakshya</span>
+    </a>
+
+    <nav class="nav__links" aria-label="Primary">
+      <ul>
+        <li><a href="#station"><span class="nav__idx">01</span><span class="roll"><span>Device</span><span aria-hidden="true">Device</span></span></a></li>
+        <li><a href="#how-understand"><span class="nav__idx">02</span><span class="roll"><span>Intelligence</span><span aria-hidden="true">Intelligence</span></span></a></li>
+        <li><a href="#parents"><span class="nav__idx">03</span><span class="roll"><span>Parents</span><span aria-hidden="true">Parents</span></span></a></li>
+        <li><a href="#clinicians"><span class="nav__idx">04</span><span class="roll"><span>Clinicians</span><span aria-hidden="true">Clinicians</span></span></a></li>
+        <li><a href="#public-health"><span class="nav__idx">05</span><span class="roll"><span>Public health</span><span aria-hidden="true">Public health</span></span></a></li>
+      </ul>
+    </nav>
+
+    <div class="nav__end">
+      <a class="nav__cta" href="#contact"><span class="roll"><span>Get in touch</span><span aria-hidden="true">Get in touch</span></span></a>
+      <button class="nav__menu" type="button" aria-expanded="false" aria-controls="menu">
+        <span class="nav__menu-lbl roll"><span>Menu</span><span aria-hidden="true">Close</span></span>
+        <span class="nav__menu-ico" aria-hidden="true"><i></i><i></i></span>
+      </button>
+    </div>
+  </div>
+</header>
+
+<!-- Full-height menu: used on small screens, and on desktop once the bar has compacted -->
+<div class="menu" id="menu" role="dialog" aria-modal="true" aria-label="Site menu" hidden>
+  <div class="menu__inner">
+    <ol class="menu__list">
+      <li><a href="#station"><span class="menu__idx">01</span><span class="menu__lbl">Device</span><span class="menu__note">Six measurements, one sitting</span></a></li>
+      <li><a href="#how-understand"><span class="menu__idx">02</span><span class="menu__lbl">Intelligence</span><span class="menu__note">Growth read against WHO standards</span></a></li>
+      <li><a href="#parents"><span class="menu__idx">03</span><span class="menu__lbl">Parents</span><span class="menu__note">Vaccines, meals, milestones</span></a></li>
+      <li><a href="#clinicians"><span class="menu__idx">04</span><span class="menu__lbl">Clinicians</span><span class="menu__note">The growth chart, filled in</span></a></li>
+      <li><a href="#public-health"><span class="menu__idx">05</span><span class="menu__lbl">Public health</span><span class="menu__note">Screening at scale</span></a></li>
+      <li><a href="#questions"><span class="menu__idx">06</span><span class="menu__lbl">Questions</span><span class="menu__note">What parents ask first</span></a></li>
+    </ol>
+    <div class="menu__aside">
+      <p class="menu__kicker">Contact</p>
+      <a class="menu__contact" href="#contact">Get in touch <span aria-hidden="true">→</span></a>
+      <p class="menu__legal">Sanrakshya is built by Techsentinals LLP, India.</p>
+    </div>
+  </div>
+</div>
+
+<main id="main">
+<!-- ─────────────────────────── HERO ─────────────────────────── -->
+<section class="home" id="top" aria-labelledby="home-title">
+  <div class="home__stage">
+    <div class="home__backdrop" aria-hidden="true">
+      <picture>
+        <source media="(max-width: 760px)" srcset="assets/home-poster-m.webp">
+        <img src="assets/home-poster.webp" alt="" width="1920" height="1212" fetchpriority="high" decoding="async">
+      </picture>
+    </div>
+    <canvas class="home__canvas" role="img" aria-label="A wooden toy giraffe beside two alphabet blocks. It watches your cursor; press and hold it and it grows."></canvas>
+    <div class="home__annot" aria-hidden="true"></div>
+
+    <div class="home__copy">
+      <p class="kicker"><span class="tick" aria-hidden="true"></span>For parents &middot; Preventive child health</p>
+      <h1 class="display display--home" id="home-title">
+        <span class="line"><span>You see them <span class="egg" data-egg="grow">grow.</span></span></span>
+        <span class="line"><span>We see <em class="egg" data-egg="well">how well.</em></span></span>
+      </h1>
+      <p class="lede">Sanrakshya checks six quiet signs of your child&rsquo;s health in one sitting and reads each one against the last, so you and your paediatrician notice a change early.</p>
+      <div class="actions">
+        <a class="btn btn--ink" href="#station"><span class="roll"><span>See how it works</span><span aria-hidden="true">See how it works</span></span><svg viewBox="0 0 12 12" aria-hidden="true"><path d="M6 1v10M1.5 6.5 6 11l4.5-4.5"/></svg></a>
+        <a class="btn btn--line" href="#clinicians"><span class="roll"><span>For paediatricians</span><span aria-hidden="true">For paediatricians</span></span></a>
+      </div>
+      <div class="toys" role="tablist" aria-label="What Sanrakshya watches">
+        <button role="tab" aria-selected="true" data-i="0" type="button"><span>01</span>Grow<i></i></button>
+        <button role="tab" aria-selected="false" data-i="1" type="button"><span>02</span>Eat<i></i></button>
+        <button role="tab" aria-selected="false" data-i="2" type="button"><span>03</span>Learn<i></i></button>
+      </div>
+      <button class="home__grow" type="button">Play with the toy</button>
+    </div>
+
+    <p class="home__hint" aria-hidden="true"><i></i>psst &mdash; press and hold me</p>
+
+    <div class="home__foot">
+      <div class="home__cue" aria-hidden="true"><i></i><span>Scroll to see how it works</span></div>
+      <p class="home__made">Built for families and paediatricians in India</p>
+      <p class="home__signals">Height &middot; Weight &middot; MUAC &middot; Temp &middot; Pulse &middot; SpO<sub>2</sub></p>
+    </div>
+  </div>
+</section>
+
+<!-- ─────────────────────────── WHY IT MATTERS ─────────────────────────── -->
+<section class="why" id="why" aria-labelledby="why-title">
+  <div class="stickers" data-set="why" aria-hidden="true"></div>
+  <header class="why__head">
+    <p class="kicker kicker--static"><span class="tick" aria-hidden="true"></span>The part you can&rsquo;t see</p>
+    <h2 class="why__title" id="why-title" data-rise data-hop>You notice everything. <em>Except the pace.</em></h2>
+    <p class="why__lede">The new words, the first wobbly steps, the shoes that suddenly don&rsquo;t fit. Growth itself moves by millimetres, and one check-up can&rsquo;t tell a pause from a pattern. Sanrakshya keeps the series.</p>
+  </header>
+
+  <div class="bento" data-bento>
+    <!-- 01 the anchor: the pace, drawn as a series -->
+    <article class="cell cell--pace" data-cell="pace">
+      <div class="cell__txt">
+        <span class="cell__idx">The pace</span>
+        <h3>One check-up can&rsquo;t tell a pause from a pattern. <em>A series can.</em></h3>
+      </div>
+      <figure class="pace" aria-label="Illustration: a child's height drifting slowly below their expected curve over eighteen months, never more than a few millimetres at any single visit.">
+        <svg class="pace__svg" viewBox="0 0 640 260" preserveAspectRatio="none" aria-hidden="true">
+          <g class="pace__grid"></g>
+          <path class="pace__band" d="" />
+          <path class="pace__exp" d="" />
+          <path class="pace__act" d="" pathLength="1" />
+          <g class="pace__dots"></g>
+          <line class="pace__cur" x1="0" x2="0" y1="0" y2="260" />
+        </svg>
+        <figcaption class="pace__read" aria-hidden="true">
+          <span>Month <b data-m>18</b></span>
+          <span>Behind their curve <b data-g>21&nbsp;mm</b></span>
+          <span class="pace__max">Largest single step <b data-s>4&nbsp;mm</b></span>
+        </figcaption>
+      </figure>
+      <p class="cell__foot"><span class="pace__key pace__key--exp"></span>Their expected curve <span class="pace__key pace__key--act"></span>Their actual growth <span class="cell__hint">Illustrative child &middot; drag across the chart</span></p>
+    </article>
+
+    <!-- 02 six signs -->
+    <article class="cell cell--six" data-cell="six">
+      <div class="cell__txt">
+        <span class="cell__idx">One sitting</span>
+        <h3>Six signs, <em>measured together.</em></h3>
+      </div>
+      <ul class="six" aria-label="Height, weight, arm circumference, temperature, pulse and oxygen">
+        <li data-v="104.2" data-u="cm"><svg viewBox="0 0 40 40" aria-hidden="true"><path class="g-h1" d="M12 6v28M9 34h14"/><path class="g-h2" d="M12 12h9"/><path class="g-tk" d="M12 18h3M12 24h3M12 30h3"/></svg><b>Height</b><span class="six__v">104.2 <small>cm</small></span></li>
+        <li data-v="16.8" data-u="kg"><svg viewBox="0 0 40 40" aria-hidden="true"><path d="M7 30h26l-3-16H10z"/><path class="g-nd" d="M20 24l5-5"/></svg><b>Weight</b><span class="six__v">16.8 <small>kg</small></span></li>
+        <li data-v="15.1" data-u="cm"><svg viewBox="0 0 40 40" aria-hidden="true"><ellipse cx="20" cy="20" rx="12" ry="7"/><path class="g-tp" d="M8 20c0 4 5 7 12 7s12-3 12-7" pathLength="1"/></svg><b>Arm (MUAC)</b><span class="six__v">15.1 <small>cm</small></span></li>
+        <li data-v="36.7" data-u="&deg;C"><svg viewBox="0 0 40 40" aria-hidden="true"><path d="M17 8a3 3 0 0 1 6 0v15a6 6 0 1 1-6 0z"/><path class="g-th" d="M20 13v14"/></svg><b>Temperature</b><span class="six__v">36.7 <small>&deg;C</small></span></li>
+        <li data-v="96" data-u="bpm"><svg viewBox="0 0 40 40" aria-hidden="true"><path class="g-pl" d="M4 21h8l3-7 5 14 4-10 2 3h10" pathLength="1"/></svg><b>Pulse</b><span class="six__v">96 <small>bpm</small></span></li>
+        <li data-v="98" data-u="%"><svg viewBox="0 0 40 40" aria-hidden="true"><circle cx="20" cy="20" r="12" class="g-r0"/><circle cx="20" cy="20" r="12" class="g-r1" pathLength="1"/></svg><b>Oxygen</b><span class="six__v">98 <small>%</small></span></li>
+      </ul>
+    </article>
+
+    <!-- 03 WHO standards -->
+    <article class="cell cell--who" data-cell="who">
+      <div class="cell__txt">
+        <span class="cell__idx">The reference</span>
+        <h3>Read against <em>WHO growth standards.</em></h3>
+        <p>The same references your paediatrician relies on.</p>
+      </div>
+      <svg class="who" viewBox="0 0 300 150" aria-hidden="true">
+        <path class="who__fan" d="M10 120 C 90 96, 170 66, 262 22 L262 64 C 170 94, 90 118, 10 136 Z" />
+        <path class="who__p" pathLength="1" d="M10 120 C 90 96, 170 66, 262 22" />
+        <path class="who__p" pathLength="1" d="M10 125 C 90 102, 170 76, 262 34" />
+        <path class="who__p who__p--m" pathLength="1" d="M10 129 C 90 107, 170 84, 262 43" />
+        <path class="who__p" pathLength="1" d="M10 132 C 90 112, 170 92, 262 53" />
+        <path class="who__p" pathLength="1" d="M10 136 C 90 118, 170 94, 262 64" />
+        <path id="who-kid" class="who__kid" pathLength="1" d="M10 127 C 90 105, 170 80, 262 40" />
+        <circle class="who__dot" r="3.6"><animateMotion dur="7s" repeatCount="indefinite" keyPoints="0;1;1" keyTimes="0;.8;1" calcMode="linear" begin="indefinite"><mpath href="#who-kid"/></animateMotion></circle>
+        <g class="who__lbl"><text x="268" y="25">97th</text><text x="268" y="37">85th</text><text x="268" y="46">50th</text><text x="268" y="56">15th</text><text x="268" y="67">3rd</text></g>
+      </svg>
+    </article>
+
+    <!-- 04 passport -->
+    <article class="cell cell--pass" data-cell="pass">
+      <div class="cell__txt">
+        <span class="cell__idx">One record</span>
+        <h3>A passport for <em>all of it.</em></h3>
+      </div>
+      <div class="pass" aria-label="Growth, vaccines, meals, milestones and your doctor's notes">
+        <div class="pass__card" data-k="0"><small>Growth</small><b>On their curve</b><svg viewBox="0 0 100 24" aria-hidden="true"><path d="M2 20 C 30 16, 60 10, 98 4"/></svg></div>
+        <div class="pass__card" data-k="1"><small>Vaccines</small><b>Next due in 3 weeks</b><svg class="pass__jab" viewBox="0 0 64 24" aria-hidden="true"><path d="M8 12h30M14 7v10M38 6v12M38 12h8"/><g class="pass__plunge"><path d="M46 12h12M58 6v12"/></g><path d="M8 12H1"/><circle class="pass__drop" cx="1" cy="15" r="1.6"/><path d="M20 9v6M26 9v6M32 9v6" class="pass__marks"/></svg><i class="pass__dots"><i></i><i></i><i></i><i></i><i class="o"></i></i></div>
+        <div class="pass__card" data-k="2"><small>Meals</small><b>This week&rsquo;s plan</b><i class="pass__bars"><i style="--h:.6"></i><i style="--h:.85"></i><i style="--h:.5"></i><i style="--h:.75"></i><i style="--h:.9"></i></i></div>
+        <div class="pass__card" data-k="3"><small>Milestones</small><b>First full sentence</b><i class="pass__star" aria-hidden="true">&#10022;</i></div>
+        <div class="pass__card" data-k="4"><small>Doctor&rsquo;s notes</small><b>&ldquo;Growing well.&rdquo;</b><i class="pass__sig"></i></div>
+      </div>
+    </article>
+
+    <!-- 05 plain words -->
+    <article class="cell cell--words" data-cell="words">
+      <div class="cell__txt">
+        <span class="cell__idx">In plain words</span>
+        <h3>The trend, <em>explained.</em></h3>
+      </div>
+      <div class="insight" aria-live="off">
+        <span class="plaster" aria-hidden="true"><i></i></span>
+        <span class="insight__who"><i></i>Sanrakshya</span>
+        <p class="insight__txt"></p>
+      </div>
+      <p class="cell__foot"><span class="cell__hint">Illustrative insight</span></p>
+    </article>
+
+    <!-- 06 the paediatrician -->
+    <article class="cell cell--doc" data-cell="doc">
+      <div class="cell__txt">
+        <span class="cell__idx">Your paediatrician</span>
+        <h3>Seen by the doctor <em>you already trust.</em></h3>
+      </div>
+      <svg class="loop" viewBox="0 0 300 120" aria-hidden="true">
+        <path id="loop-arc" class="loop__arc" d="M44 84 C 110 10, 190 10, 256 84" />
+        <g class="loop__node" transform="translate(44 84)"><circle r="20"/><path d="M-5 -5a5 5 0 1 0 10 0a5 5 0 1 0-10 0M-10 11c2-6 18-6 20 0"/></g>
+        <g class="loop__node loop__node--doc" transform="translate(256 84)"><circle r="20"/><path d="M-6 -9v6a6 6 0 0 0 12 0v-6M0 3v5a5 5 0 0 0 10 0v-3"/><circle cx="10" cy="3" r="2"/></g>
+        <g class="loop__pkt"><rect x="-13" y="-9" width="26" height="18" rx="3"/><path d="M-8 -2h16M-8 3h10"/><animateMotion dur="3.6s" repeatCount="indefinite" keyPoints="0;0;1;1" keyTimes="0;.15;.7;1" calcMode="spline" keySplines="0 0 1 1;.6 0 .3 1;0 0 1 1" begin="indefinite"><mpath href="#loop-arc"/></animateMotion></g>
+        <text class="loop__lbl" x="44" y="118">Parent</text>
+        <text class="loop__lbl" x="256" y="118">Paediatrician</text>
+      </svg>
+      <p class="loop__ok"><i></i>Shared with your paediatrician</p>
+    </article>
+  </div>
+</section>
+
+<!-- ─────────────────────────── FOR PARENTS ─────────────────────────── -->
+<section class="kin" id="parents" aria-labelledby="kin-title">
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs><filter id="kin-crayon" x="-10%" y="-10%" width="120%" height="120%">
+    <feTurbulence type="fractalNoise" baseFrequency="1.1" numOctaves="2" seed="14" result="g"/>
+    <feColorMatrix in="g" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 -1.4 1.6" result="t"/>
+    <feComposite in="SourceGraphic" in2="t" operator="in" result="w"/>
+    <feTurbulence type="fractalNoise" baseFrequency="0.06" numOctaves="1" seed="3" result="wob"/>
+    <feDisplacementMap in="w" in2="wob" scale="2.2" xChannelSelector="R" yChannelSelector="G"/>
+  </filter></defs></svg>
+  <div class="kin__inner">
+    <header class="kin__head">
+      <p class="kicker kicker--static"><span class="tick" aria-hidden="true"></span>For parents</p>
+      <h2 class="kin__title" id="kin-title" data-rise>Less to remember. More time with them.</h2>
+      <p class="kin__lede">Sanrakshya keeps track of what slips through a busy week, so the attention you have goes to your child, not to the calendar.</p>
+    </header>
+    <ol class="perks">
+      <li class="perk" data-k="vaccine">
+        <svg class="perk__art" viewBox="0 0 64 64" aria-hidden="true"><g filter="url(#kin-crayon)">
+          <path class="a-barrel" d="M14 44L38 20L46 28L22 52Z"/><path d="M20 38l4 4M25 33l4 4M30 28l4 4"/>
+          <g class="a-plunger"><path d="M42 16L50 24M46 20L56 10M52 6l8 8"/></g>
+          <path d="M14 44L22 52M18 48L8 58"/><circle class="a-drop" cx="7" cy="60" r="2.2"/></g></svg>
+        <div class="perk__txt"><h3>Vaccines</h3><p>A reminder before every vaccine is due, and a record of each one given.</p></div>
+        <p class="perk__moment"><i></i>MMR, second dose &middot; due in 5 days</p>
+      </li>
+      <li class="perk" data-k="meal">
+        <svg class="perk__art" viewBox="0 0 64 64" aria-hidden="true"><g filter="url(#kin-crayon)">
+          <ellipse cx="30" cy="36" rx="22" ry="16"/><ellipse cx="30" cy="36" rx="13" ry="8.5" class="a-rim"/>
+          <path class="a-food a-f1" d="M22 36c2-5 7-5 9 0"/><path class="a-food a-f2" d="M30 39c2-4 6-4 8 0"/><circle class="a-food a-f3" cx="26" cy="40" r="1.8"/>
+          <path d="M56 14v20M53 14v8c0 3 6 3 6 0v-8"/></g></svg>
+        <div class="perk__txt"><h3>Meals</h3><p>A week of meals planned around how your child is growing, and what they need more of.</p></div>
+        <p class="perk__moment"><i></i>Tomorrow &middot; ragi porridge, banana, dal</p>
+      </li>
+      <li class="perk" data-k="steps">
+        <svg class="perk__art" viewBox="0 0 64 64" aria-hidden="true"><g filter="url(#kin-crayon)">
+          <g class="a-foot a-s1"><path d="M14 46c-4-8 0-16 5-14s4 10 1 15-5 3-6-1z"/><circle cx="12" cy="28" r="1.5"/><circle cx="15.5" cy="26.5" r="1.5"/><circle cx="19" cy="27" r="1.5"/></g>
+          <g class="a-foot a-s2"><path d="M34 34c-4-8 0-16 5-14s4 10 1 15-5 3-6-1z"/><circle cx="32" cy="16" r="1.5"/><circle cx="35.5" cy="14.5" r="1.5"/><circle cx="39" cy="15" r="1.5"/></g>
+          <g class="a-foot a-s3"><path d="M50 50c-4-8 0-16 5-14s4 10 1 15-5 3-6-1z"/><circle cx="48" cy="32" r="1.5"/><circle cx="51.5" cy="30.5" r="1.5"/><circle cx="55" cy="31" r="1.5"/></g></g></svg>
+        <div class="perk__txt"><h3>Milestones</h3><p>Every first, recorded as it happens: the first word, the first step, the first full sentence.</p></div>
+        <p class="perk__moment"><i></i>First steps &middot; 14 September</p>
+      </li>
+      <li class="perk" data-k="temp">
+        <svg class="perk__art" viewBox="0 0 64 64" aria-hidden="true"><g filter="url(#kin-crayon)">
+          <path d="M26 10a6 6 0 0 1 12 0v30a10 10 0 1 1-12 0z"/><path class="a-mercury" d="M32 50V20"/><circle class="a-bulb" cx="32" cy="49" r="5"/>
+          <path d="M42 16h5M42 24h5M42 32h5"/></g></svg>
+        <div class="perk__txt"><h3>Symptoms</h3><p>Log a temperature or a symptom in seconds, and share it with your paediatrician when it matters.</p></div>
+        <p class="perk__moment"><i></i>Temperature logged &middot; 38.1&nbsp;&deg;C at 9:40&nbsp;pm</p>
+      </li>
+      <li class="perk" data-k="visit">
+        <svg class="perk__art" viewBox="0 0 64 64" aria-hidden="true"><g filter="url(#kin-crayon)">
+          <rect x="10" y="14" width="44" height="40" rx="4"/><path d="M10 24h44M20 9v9M44 9v9"/>
+          <path d="M18 32h4M28 32h4M38 32h4M18 42h4M38 42h4"/><path class="a-circle" pathLength="1" d="M35 42c1-5 8-5 9 0s-8 6-9 0z"/></g></svg>
+        <div class="perk__txt"><h3>Check-ups</h3><p>Book your paediatrician from the same app, with every visit&rsquo;s notes kept together.</p></div>
+        <p class="perk__moment"><i></i>Check-up booked &middot; Thursday, 10:30</p>
+      </li>
+      <li class="perk" data-k="records">
+        <svg class="perk__art" viewBox="0 0 64 64" aria-hidden="true"><g filter="url(#kin-crayon)">
+          <rect x="16" y="10" width="34" height="46" rx="3"/><path d="M24 22h18M24 29h18M24 36h12"/>
+          <path class="a-page" d="M16 10h24v46H16z"/><circle cx="41" cy="46" r="4"/></g></svg>
+        <div class="perk__txt"><h3>Records</h3><p>Reports, prescriptions and test results in one health passport you can share in a tap.</p></div>
+        <p class="perk__moment"><i></i>Passport shared with your paediatrician</p>
+      </li>
+    </ol>
+    <p class="kin__note">Examples are illustrative. All six live in the Sanrakshya parent app.</p>
+  </div>
+</section>
+
+<!-- ─────────────────────────── HOW IT WORKS (the app) ─────────────────────────── -->
+<section class="how" id="how" aria-labelledby="how-title">
+  <div class="stickers" data-set="how" aria-hidden="true"></div>
+  <header class="how__head">
+    <p class="kicker kicker--static"><span class="tick" aria-hidden="true"></span>How it works</p>
+    <h2 class="how__title" id="how-title" data-rise data-hop>From one visit<br>to a whole <em>childhood.</em></h2>
+    <p class="how__lede">The station measures. The app understands. Your paediatrician sees what you see. These are the real app screens, and every reading becomes part of one story that grows with your child.</p>
+  </header>
+
+  <div class="how__body">
+    <ol class="how__steps">
+      <li class="how__step" id="how-measure" data-step="0">
+        <span class="how__num">01 <i>Measure</i></span>
+        <h3 data-rise data-hop>One sitting. <em>Six signs.</em></h3>
+        <p>The station captures height, weight, arm circumference, temperature, pulse and oxygen together, and every reading lands in your child&rsquo;s record. At home, adding one yourself takes seconds.</p>
+      </li>
+      <li class="how__step" id="how-understand" data-step="1">
+        <span class="how__num">02 <i>Understand</i></span>
+        <h3 data-rise data-hop>Growth charts, <em>read for you.</em></h3>
+        <p>Every reading is plotted against WHO growth standards: percentile, weight, height and BMI. Sanrakshya&rsquo;s AI reads the trend, not just today&rsquo;s number, and tells you in plain words how it&rsquo;s going.</p>
+      </li>
+      <li class="how__step" id="how-share" data-step="2">
+        <span class="how__num">03 <i>Share</i></span>
+        <h3 data-rise data-hop>Your paediatrician sees <em>what you see.</em></h3>
+        <p>Your doctor opens the same charts on their side, with every visit, reading and note in one place. Messages, appointments and follow-ups stay in the same thread as the data.</p>
+      </li>
+      <li class="how__step" id="how-keep" data-step="3">
+        <span class="how__num">04 <i>Keep</i></span>
+        <h3 data-rise data-hop>Everything, in <em>one passport.</em></h3>
+        <p class="how__keep"><span data-k="0">Their health at a glance.</span> <span data-k="1">Vaccines on schedule.</span> <span data-k="2">Meals planned.</span> <span data-k="3">Milestones remembered.</span> <span data-k="4">The right specialist, a tap away.</span></p>
+      </li>
+    </ol>
+
+    <div class="how__stage" aria-hidden="true">
+      <div class="how__rail"><i></i><i></i><i></i><i></i></div>
+      <canvas class="how__gl"></canvas>
+      <div class="phone-flat"><canvas class="phone-flat__screen" width="740" height="1600"></canvas></div>
+      <p class="how__tag" data-for="2"><span>Parent app</span><span>Paediatrician app</span></p>
+      <p class="how__caption">Real Sanrakshya app screens. Names and data are examples.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ─────────────────────── THE STATION (product reveal) ─────────────────────── -->
+<section class="station" id="station" aria-labelledby="station-title">
+  <div class="station__stage">
+    <div class="station__backdrop" aria-hidden="true">
+      <picture>
+        <source media="(max-width: 760px)" srcset="assets/station-poster-m.webp">
+        <img src="assets/station-poster.webp" alt="" width="1920" height="1212" loading="lazy" decoding="async">
+      </picture>
+    </div>
+    <canvas class="station__canvas" aria-hidden="true"></canvas>
+    <div class="station__annot" aria-hidden="true"></div>
+
+    <div class="station__copy">
+      <p class="kicker"><span class="tick" aria-hidden="true"></span>The Sanrakshya station</p>
+      <h2 class="display" id="station-title">
+        <span class="line"><span>Six measurements.</span></span>
+        <span class="line"><span><em>One calm object.</em></span></span>
+      </h2>
+      <p class="lede">Height, weight, arm circumference, temperature, pulse and oxygen, taken together in a single sitting and saved straight to your child&rsquo;s record.</p>
+    </div>
+
+    <div class="station__panel" style="--a:.3;--b:.53">
+      <p class="kicker kicker--static"><span class="tick" aria-hidden="true"></span>Every sign, in its place</p>
+      <h3 class="station__h" data-rise>Nothing to hold still for. <em>Nothing to write down.</em></h3>
+    </div>
+
+    <div class="station__panel" style="--a:.57;--b:.85">
+      <p class="kicker kicker--static"><span class="tick" aria-hidden="true"></span>From the first day</p>
+      <h3 class="station__h" data-rise>For babies who can&rsquo;t stand yet, <em>a tray.</em></h3>
+      <p class="lede">It clicks onto the platform. Weight is taken lying down, and length along a sliding footboard, so the record starts the week they come home.</p>
+    </div>
+
+    <div class="station__panel station__panel--end" style="--a:.88;--b:9" id="story">
+      <p class="kicker kicker--static"><span class="tick" aria-hidden="true"></span>Made to grow with them</p>
+      <h3 class="station__statement" data-rise>From the first weigh-in to the last pencil mark <em>on the doorframe.</em></h3>
+      <div class="actions actions--static">
+        <a class="btn btn--ink" href="#contact"><span class="roll"><span>Get in touch</span><span aria-hidden="true">Get in touch</span></span></a>
+        <a class="btn btn--line" href="#clinicians"><span class="roll"><span>For paediatricians</span><span aria-hidden="true">For paediatricians</span></span></a>
+      </div>
+    </div>
+
+    <div class="station__foot">
+      <p class="station__note">The measurement station and infant tray are design concepts; hardware is in development. Readings are illustrative.</p>
+      <div class="station__cue" aria-hidden="true"><span>Scroll</span><i></i></div>
+      <ul class="station__signals" aria-label="Measured in one sitting">
+        <li>Height</li><li>Weight</li><li>MUAC</li><li>Temp</li><li>Pulse</li><li>SpO<sub>2</sub></li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ─────────────────────────── FOR PAEDIATRICIANS ─────────────────────────── -->
+<section class="clinic" id="clinicians" aria-labelledby="clinic-title">
+  <div class="clinic__stage">
+    <div class="clinic__copy">
+      <p class="kicker kicker--static"><span class="tick" aria-hidden="true"></span>For paediatricians</p>
+      <h2 class="clinic__title" id="clinic-title" data-rise>The chart you already use, filled in.</h2>
+      <p class="clinic__lede">Readings from the station land on the child&rsquo;s WHO growth chart by themselves, so the trend is in front of you before the child sits down.</p>
+      <div class="cap" role="tablist" aria-label="What Sanrakshya does for your clinic">
+        <button class="cap__i" role="tab" type="button" aria-selected="true" data-i="0"><span class="cap__n">01</span><span class="cap__t">Plotted</span><span class="cap__d">Every station reading lands on the chart, dated, without anyone transcribing it.</span><span class="cap__bar"><i></i></span></button>
+        <button class="cap__i" role="tab" type="button" aria-selected="false" data-i="1"><span class="cap__n">02</span><span class="cap__t">Read against WHO</span><span class="cap__d">Where the child sits among the WHO percentiles, and which way they are heading.</span><span class="cap__bar"><i></i></span></button>
+        <button class="cap__i" role="tab" type="button" aria-selected="false" data-i="2"><span class="cap__n">03</span><span class="cap__t">Flagged for you</span><span class="cap__d">When a curve starts to cross centile lines, it is marked for your review.</span><span class="cap__bar"><i></i></span></button>
+        <button class="cap__i" role="tab" type="button" aria-selected="false" data-i="3"><span class="cap__n">04</span><span class="cap__t">Back to the parents</span><span class="cap__d">Your note and the next visit go straight to the family&rsquo;s app.</span><span class="cap__bar"><i></i></span></button>
+      </div>
+    </div>
+
+    <figure class="sheet" aria-label="Illustration: an illustrative boy's height readings plotted on a WHO height-for-age chart, drifting from above the median towards the 25th percentile, circled for review, with a note to his parents.">
+      <div class="sheet__paper">
+        <header class="sheet__head">
+          <b>Height-for-age <span>Boys</span></b>
+          <small>2 to 5 years &middot; percentiles &middot; WHO Child Growth Standards</small>
+          <span class="sheet__who">Kabir M. &middot; illustrative</span>
+        </header>
+        <svg class="chart" viewBox="0 0 600 420" aria-hidden="true">
+          <defs>
+            <filter id="crayon-flag" x="-10%" y="-10%" width="120%" height="120%">
+              <feTurbulence type="fractalNoise" baseFrequency="0.85" numOctaves="2" seed="7" result="grain"/>
+              <feColorMatrix in="grain" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 -2.4 1.95" result="tooth"/>
+              <feComposite in="SourceGraphic" in2="tooth" operator="in" result="wax"/>
+              <feTurbulence type="fractalNoise" baseFrequency="0.035" numOctaves="2" seed="11" result="wob"/>
+              <feDisplacementMap in="wax" in2="wob" scale="4" xChannelSelector="R" yChannelSelector="G"/>
+            </filter>
+            <filter id="graphite" x="-5%" y="-20%" width="110%" height="140%">
+              <feTurbulence type="fractalNoise" baseFrequency="1.4" numOctaves="1" seed="3" result="g"/>
+              <feColorMatrix in="g" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 -1.6 1.5" result="t"/>
+              <feComposite in="SourceGraphic" in2="t" operator="in"/>
+            </filter>
+          </defs>
+          <g class="chart__grid"></g>
+          <path class="chart__band" d="" />
+          <g class="chart__pct"></g>
+          <g class="chart__axes"></g>
+          <path class="chart__kid" d="" pathLength="1" filter="url(#graphite)" />
+          <g class="chart__pts"></g>
+          <g class="chart__flag" filter="url(#crayon-flag)"><path pathLength="1" d="" /><path class="b" pathLength="1" d="" /></g>
+          <g class="chart__read"><line /><text></text></g>
+        </svg>
+        <p class="sheet__tag"><i></i><span>Crossed a centile line &middot; flagged for review</span></p>
+        <svg class="sheet__doodle" viewBox="0 0 60 60" aria-hidden="true"><path pathLength="1" d="M30 31c1-2 4-1 4 1 0 4-6 5-8 1-2-5 4-10 10-8 7 3 7 13 0 17-8 4-18-1-19-10-1-9 8-17 18-16"/><path pathLength="1" d="M47 12l4-4M50 20l6-1M44 7l1-6"/></svg>
+      </div>
+      <div class="note" aria-hidden="true">
+        <span class="note__tape"></span>
+        <p class="note__hand">Growth has slowed since spring. Let&rsquo;s recheck at his next visit, in six weeks.</p>
+        <p class="note__sent"><i></i>Sent to Kabir&rsquo;s parents &middot; follow-up booked</p>
+      </div>
+    </figure>
+    <p class="clinic__note">Illustrative child and readings. Percentile curves drawn from the WHO Child Growth Standards.</p>
+  </div>
+</section>
+
+<!-- ─────────────────────────── THE SPEC SHEET ─────────────────────────── -->
+<section class="spec" id="clinic-spec" aria-labelledby="spec-title">
+  <div class="spec__inner">
+    <header class="spec__head">
+      <p class="kicker kicker--static"><span class="tick" aria-hidden="true"></span>What your clinic gets</p>
+      <h2 class="spec__title" id="spec-title" data-rise>Everything on one record.</h2>
+      <a class="btn btn--ink" href="#contact" data-audience="clinic"><span class="roll"><span>Request a clinic demo</span><span aria-hidden="true">Request a clinic demo</span></span></a>
+    </header>
+    <dl class="spec__list">
+      <div><dt>Measurements</dt><dd>Height, weight, mid-upper arm circumference, temperature, pulse (PPG) and SpO&#8322;, taken in one sitting by the station.</dd></div>
+      <div><dt>Growth analytics</dt><dd>Every reading plotted against WHO growth standards, as percentiles and trends rather than single numbers.</dd></div>
+      <div><dt>Risk flags</dt><dd>AI analysis flags growth and nutrition risks for your review. You decide what happens next.</dd></div>
+      <div><dt>Clinical reports</dt><dd>A report for each child, ready to discuss in the visit and to share with parents.</dd></div>
+      <div><dt>Parent link</dt><dd>Notes, messages and follow-ups arrive in the parent&rsquo;s app, alongside the child&rsquo;s passport.</dd></div>
+      <div><dt>Hardware status</dt><dd>The station is a design concept, in development. The app screens shown are from the real apps.</dd></div>
+    </dl>
+  </div>
+</section>
+
+<!-- ─────────────────────────── PUBLIC HEALTH ─────────────────────────── -->
+<section class="scale" id="public-health" aria-labelledby="scale-title">
+  <div class="scale__stage">
+    <canvas class="scale__field" aria-hidden="true"></canvas>
+    <div class="scale__labels" aria-hidden="true"><span class="scale__one">One child</span></div>
+    <div class="scale__copy">
+      <p class="kicker kicker--static"><span class="tick" aria-hidden="true"></span>Public health</p>
+      <h2 class="scale__title" id="scale-title" data-rise>From one child to a <em>whole community.</em></h2>
+      <p class="scale__lede">The same station works in clinics, schools and community programmes, carried by frontline health workers. Every reading syncs to one record per child, and to one live view for the programme.</p>
+      <ol class="beats beats--cap" aria-label="How it scales">
+        <li data-b="0">It starts with one child&rsquo;s record.</li>
+        <li data-b="1">Every station syncs as it measures, wherever a child is screened.</li>
+        <li data-b="2">Readings gather where they were taken: clinics, schools, camps and home visits.</li>
+        <li data-b="3">Risk shows where it clusters, early, and health departments see it live.</li>
+      </ol>
+      <div class="actions actions--static"><a class="btn btn--ink" href="#contact" data-audience="programme"><span class="roll"><span>Talk to us about a programme</span><span aria-hidden="true">Talk to us about a programme</span></span></a></div>
+    </div>
+    <p class="scale__note">Each dot is one illustrative screening. Not real data.</p>
+  </div>
+</section>
+
+<!-- ─────────────────────────── QUESTIONS ─────────────────────────── -->
+<section class="faq" id="questions" aria-labelledby="faq-title">
+  <div class="faq__inner">
+    <header class="faq__head">
+      <h2 class="faq__title" id="faq-title" data-rise>What parents ask first.</h2>
+    </header>
+    <div class="faq__list">
+      <details class="q"><summary><span class="q__t">What does Sanrakshya measure?</span><i class="q__x" aria-hidden="true"></i></summary><div class="q__a"><p>Six signs in one sitting: height, weight, mid-upper arm circumference, temperature, pulse and blood oxygen. At home you can also add readings, vaccinations, meals and milestones yourself in the app.</p></div></details>
+      <details class="q"><summary><span class="q__t">Does it replace my paediatrician?</span><i class="q__x" aria-hidden="true"></i></summary><div class="q__a"><p>No. Sanrakshya keeps the record between visits and reads the trend, so your paediatrician sees the whole picture. Decisions about your child&rsquo;s care stay with your doctor.</p></div></details>
+      <details class="q"><summary><span class="q__t">How are the growth charts read?</span><i class="q__x" aria-hidden="true"></i></summary><div class="q__a"><p>Every reading is plotted against WHO growth standards, the same references used in paediatric practice. The app looks at the direction of the curve over time, not just one number.</p></div></details>
+      <details class="q"><summary><span class="q__t">Is it for babies too?</span><i class="q__x" aria-hidden="true"></i></summary><div class="q__a"><p>Yes. For babies who can&rsquo;t stand yet, an infant tray clicks onto the station&rsquo;s platform, so weight and length are taken lying down and the record starts from the first weeks.</p></div></details>
+      <details class="q"><summary><span class="q__t">Can I buy the station today?</span><i class="q__x" aria-hidden="true"></i></summary><div class="q__a"><p>Not yet. The station shown here is a design concept and the hardware is in development. Leave your details below and we&rsquo;ll tell you when it&rsquo;s ready.</p></div></details>
+      <details class="q"><summary><span class="q__t">Who sees my child&rsquo;s record?</span><i class="q__x" aria-hidden="true"></i></summary><div class="q__a"><p>You, and the paediatricians you choose to share it with. Notes and reports your doctor writes come back to you in the app.</p></div></details>
+    </div>
+  </div>
+</section>
+
+<!-- ─────────────────────────── CONTACT ─────────────────────────── -->
+<section class="contact" id="contact" aria-labelledby="contact-title">
+  <div class="contact__inner">
+    <div class="contact__lead">
+      <p class="kicker kicker--static"><span class="tick" aria-hidden="true"></span>Get in touch</p>
+      <h2 class="contact__title" id="contact-title" data-rise>Let&rsquo;s see how well <em>they grow.</em></h2>
+      <p class="contact__lede">Whether you&rsquo;re a parent, a paediatrician or run a health programme, tell us a little and we&rsquo;ll be in touch.</p>
+    </div>
+    <form class="form" novalidate data-endpoint="">
+      <fieldset class="form__who">
+        <legend>I&rsquo;m a</legend>
+        <label><input type="radio" name="audience" value="parent" checked><span>Parent</span></label>
+        <label><input type="radio" name="audience" value="clinic"><span>Paediatrician</span></label>
+        <label><input type="radio" name="audience" value="programme"><span>Health programme</span></label>
+      </fieldset>
+      <label class="field"><span>Name</span><input name="name" autocomplete="name" required></label>
+      <label class="field"><span>Email</span><input name="email" type="email" autocomplete="email" required></label>
+      <label class="field field--wide"><span data-msg-label>What would you like to know?</span><textarea name="message" rows="3"></textarea></label>
+      <div class="form__end">
+        <button class="btn btn--ink" type="submit"><span class="roll"><span>Send</span><span aria-hidden="true">Send</span></span></button>
+        <p class="form__status" role="status" aria-live="polite"></p>
+      </div>
+    </form>
+  </div>
+</section>
+</main>
+
+<!-- ─────────────────────────── FOOTER ─────────────────────────── -->
+<footer class="foot" aria-label="Site footer">
+  <div class="foot__ruler" aria-hidden="true"></div>
+  <div class="foot__grid">
+    <div class="foot__brand">
+      <p class="foot__line">Making the invisible visible.</p>
+      <p class="foot__by">Sanrakshya is built by Techsentinals LLP, India.</p>
+      <a class="foot__mail" href="#contact">Get in touch <span aria-hidden="true">&rarr;</span></a>
+      <!-- the name, written in crayon by a small hand as you arrive -->
+      <div class="foot__sign" aria-hidden="true"></div>
+    </div>
+    <nav class="foot__nav" aria-label="Footer">
+      <ul>
+        <li><a href="#station">Device</a></li>
+        <li><a href="#parents">Parents</a></li>
+        <li><a href="#clinicians">Clinicians</a></li>
+        <li><a href="#public-health">Public health</a></li>
+        <li><a href="#questions">Questions</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+    </nav>
+    <!-- the last thing on the page: the toy from the top of it, standing by a doorframe of pencil marks -->
+    <figure class="door" aria-hidden="true">
+      <span class="door__frame"></span>
+      <svg class="door__marks" viewBox="0 0 220 420" preserveAspectRatio="xMinYMax meet">
+        <defs><filter id="pencil" x="-5%" y="-40%" width="110%" height="180%">
+          <feTurbulence type="fractalNoise" baseFrequency="1.2" numOctaves="1" seed="5" result="g"/>
+          <feColorMatrix in="g" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 -1.5 1.45" result="t"/>
+          <feComposite in="SourceGraphic" in2="t" operator="in"/>
+        </filter></defs>
+      </svg>
+      <img class="door__toy" src="assets/giraffe-foot.webp" alt="" width="910" height="970" loading="lazy" decoding="async">
+    </figure>
+  </div>
+  <p class="foot__note">The measurement station and infant tray are design concepts; hardware is in development. Names, readings and charts on this site are illustrative. Sanrakshya supports, and does not replace, the advice of your paediatrician.</p>
+  <div class="foot__base"><span>&copy; 2026 Sanrakshya. All rights reserved.</span><a href="#top">Back to top <span aria-hidden="true">&uarr;</span></a></div>
+</footer>
+
+<script src="vendor/lenis.min.js" defer></script>
+<script src="js/crayon.js" defer></script>
+<script src="js/site.js" defer></script>
+<script src="js/story.js" defer></script>
+<script src="js/stickers.js" defer></script>
+<script src="js/parents.js" defer></script>
+<script src="js/bento.js" defer></script>
+<script src="js/sections.js" defer></script>
+<script src="js/end.js" defer></script>
+</body>
+</html>

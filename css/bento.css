@@ -1,0 +1,278 @@
+/* ==========================================================================
+   Sanrakshya — What Sanrakshya sees: the bento
+   One anchor (the pace, drawn as a series) and five supporting cells, each
+   holding one idea. Cards are a lighter sheet laid on the paper wall: they
+   rise out of it in a diagonal wave, catch a soft window light under the
+   pointer, and each one quietly performs its idea while it is on screen.
+   ========================================================================== */
+
+.why { position: relative; padding: clamp(120px, 18vh, 200px) var(--pad) clamp(90px, 12vh, 150px); }
+.why__head {
+  position: relative; z-index: 2; max-width: 1320px; margin: 0 auto clamp(40px, 6vh, 64px);
+  display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 400px); column-gap: 6vw; align-items: end;
+}
+.why__head .kicker { grid-column: 1 / -1; margin-bottom: 26px; }
+.why__title { font: 300 clamp(44px, 5.4vw, 88px)/.98 var(--serif); letter-spacing: -.03em; font-variation-settings: "opsz" 72; }
+.why__lede { font: 400 16px/1.6 var(--sans); color: var(--ink-2); max-width: 40ch; padding-bottom: 8px; }
+
+/* ---- The grid ------------------------------------------------------------- */
+.bento {
+  --card: #f4f1eb;
+  position: relative; z-index: 2; max-width: 1320px; margin: 0 auto;
+  display: grid; gap: 14px;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  grid-template-areas:
+    "pace pace pace pace pace pace pace six six six six six"
+    "pace pace pace pace pace pace pace who who who who who"
+    "pass pass pass pass words words words words doc doc doc doc";
+}
+.cell--pace { grid-area: pace; } .cell--six { grid-area: six; } .cell--who { grid-area: who; }
+.cell--pass { grid-area: pass; } .cell--words { grid-area: words; } .cell--doc { grid-area: doc; }
+
+.cell {
+  --rx: 0deg; --ry: 0deg; --lift: 0px;
+  position: relative; isolation: isolate; overflow: hidden;
+  display: flex; flex-direction: column; justify-content: space-between; gap: 22px;
+  min-height: 290px; padding: clamp(22px, 2vw, 30px);
+  border-radius: 22px; background: var(--card);
+  box-shadow: inset 0 0 0 1px rgba(22, 21, 19, .055), inset 0 1px 0 rgba(255, 255, 255, .8), 0 1px 2px rgba(58, 42, 25, .04);
+  transform: perspective(1400px) rotateX(var(--rx)) rotateY(var(--ry)) translate3d(0, var(--lift), 0);
+}
+/* window light that follows the pointer across every card at once */
+.cell::before {
+  content: ""; position: absolute; inset: 0; z-index: -1; pointer-events: none;
+  background: radial-gradient(520px circle at var(--mx, 50%) var(--my, -40%), rgba(255, 253, 248, .95), rgba(255, 253, 248, 0) 62%);
+  opacity: 0; transition: opacity .7s var(--ease-out);
+}
+/* and a warm rim where the light meets the edge of the card */
+.cell::after {
+  content: ""; position: absolute; inset: 0; border-radius: inherit; padding: 1px; pointer-events: none;
+  background: radial-gradient(260px circle at var(--mx, 50%) var(--my, -40%), rgba(212, 72, 30, .42), transparent 70%);
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0); -webkit-mask-composite: xor;
+  mask: linear-gradient(#000 0 0) content-box exclude, linear-gradient(#000 0 0);
+  opacity: 0; transition: opacity .7s var(--ease-out);
+}
+.bento.is-lit .cell::before, .bento.is-lit .cell::after { opacity: 1; }
+.cell.is-hover { --lift: -4px; box-shadow: inset 0 0 0 1px rgba(22, 21, 19, .06), inset 0 1px 0 rgba(255, 255, 255, .8), 0 30px 60px -34px rgba(58, 42, 25, .38); }
+/* spotlight: the rest of the grid steps back a little */
+.bento.is-lit .cell:not(.is-hover) > * { opacity: .72; }
+.cell > * { transition: opacity .6s var(--ease-out); }
+
+/* ---- Entrance: each card rises out of the paper, in a diagonal wave ---------- */
+.js .cell {
+  opacity: 0;
+  transform: perspective(1400px) rotateX(9deg) translate3d(0, 56px, 0) scale(.975);
+  transition: opacity .9s var(--ease-out) var(--d, 0s), transform 1.4s var(--ease-out) var(--d, 0s), box-shadow .6s var(--ease-out);
+}
+.js .cell.is-in { opacity: 1; transform: perspective(1400px) rotateX(var(--rx)) rotateY(var(--ry)) translate3d(0, var(--lift), 0); }
+.js .cell.is-settled { transition: transform .6s var(--ease-out), box-shadow .6s var(--ease-out); }
+/* the content inside follows a beat later */
+.js .cell > * { opacity: 0; transform: translate3d(0, 14px, 0); transition: opacity .8s var(--ease-out), transform 1s var(--ease-out); transition-delay: calc(var(--d, 0s) + .25s); }
+.js .cell.is-in > * { opacity: 1; transform: none; }
+.js .cell.is-in > * + * { transition-delay: calc(var(--d, 0s) + .4s); }
+.js .cell.is-settled > * { transition-delay: 0s; }
+.js .bento.is-lit .cell.is-settled:not(.is-hover) > * { opacity: .72; }
+
+/* ---- Card type ------------------------------------------------------------ */
+.cell__idx { display: block; font: 400 10.5px/1 var(--mono); letter-spacing: .06em; text-transform: uppercase; color: var(--muted); }
+.cell h3 { margin: 14px 0 0; font: 300 clamp(22px, 1.85vw, 30px)/1.08 var(--serif); letter-spacing: -.018em; font-variation-settings: "opsz" 48; max-width: 22ch; }
+.cell h3 em { font-style: italic; }
+.cell__txt p { margin-top: 10px; font: 400 14px/1.5 var(--sans); color: var(--ink-2); max-width: 32ch; }
+.cell__foot { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 14px; font: 400 10.5px/1.3 var(--mono); color: var(--muted); letter-spacing: .02em; }
+.cell__hint { margin-left: auto; }
+
+/* ==========================================================================
+   01 THE PACE — the anchor
+   ========================================================================== */
+.cell--pace { min-height: 600px; background: linear-gradient(180deg, #f6f3ee, var(--card)); }
+.cell--pace h3 { font-size: clamp(30px, 2.9vw, 46px); max-width: 17ch; }
+.pace { position: relative; flex: 1; display: flex; flex-direction: column; justify-content: flex-end; min-height: 260px; margin: 0; touch-action: pan-y; cursor: ew-resize; }
+.pace__svg { width: 100%; height: clamp(220px, 23vw, 320px); overflow: visible; }
+.pace__svg path, .pace__svg line { fill: none; vector-effect: non-scaling-stroke; }
+/* a path drawn by its dash length must scale with the drawing, or Chrome measures the dash on screen */
+.pace__svg .pace__act { vector-effect: none; }
+.pace__grid line { stroke: rgba(22, 21, 19, .07); stroke-width: 1; }
+.pace__grid text { font: 400 9px var(--mono); fill: var(--muted); }
+.pace__band { fill: rgba(22, 21, 19, .045) !important; stroke: none; opacity: var(--draw, 0); }
+.pace__exp { stroke: var(--ink); stroke-width: 1; stroke-dasharray: 3 4; opacity: .45; }
+.pace__act { stroke: var(--signal); stroke-width: 2; stroke-linecap: round; stroke-dasharray: 1; stroke-dashoffset: calc(1 - var(--draw, 0)); }
+.pace__dots circle { fill: var(--card); stroke: var(--signal); stroke-width: 1.5; vector-effect: non-scaling-stroke; opacity: 0; transform-box: fill-box; transform-origin: center; transform: scale(.3); transition: opacity .4s, transform .6s var(--ease-out); }
+.pace__dots circle.on { opacity: 1; transform: none; }
+.pace__dots circle.at { fill: var(--signal); }
+.pace__gap { stroke: var(--signal); stroke-width: 1; opacity: .5; }
+.pace__cur { stroke: var(--ink); stroke-width: 1; stroke-dasharray: 2 3; opacity: 0; transition: opacity .3s; }
+.pace.is-scrub .pace__cur { opacity: .5; }
+.pace__read { position: absolute; top: 0; right: 0; display: flex; gap: 22px; font: 400 10.5px/1.3 var(--mono); color: var(--muted); text-align: right; }
+.pace__read span { display: grid; gap: 6px; }
+.pace__read b { font: 300 clamp(22px, 2vw, 30px)/1 var(--serif); color: var(--ink); letter-spacing: -.01em; font-variant-numeric: tabular-nums; }
+.pace__read span:nth-child(2) b { color: var(--signal); }
+.pace__key { width: 18px; height: 0; border-top: 1px dashed var(--ink); opacity: .6; }
+.pace__key--act { border-top: 2px solid var(--signal); opacity: 1; margin-left: 8px; }
+
+/* ==========================================================================
+   02 SIX SIGNS
+   ========================================================================== */
+.six { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 18px 12px; }
+.six li { display: grid; grid-template-columns: 34px 1fr; grid-template-rows: auto auto; column-gap: 10px; align-items: center; opacity: .42; transition: opacity .6s var(--ease-out); }
+.six li.done, .six li.on { opacity: 1; }
+.six svg { grid-row: span 2; width: 34px; height: 34px; overflow: visible; }
+.six svg * { fill: none; stroke: var(--ink-2); stroke-width: 1.4; stroke-linecap: round; stroke-linejoin: round; vector-effect: non-scaling-stroke; transition: stroke .4s; }
+.six li.on svg * { stroke: var(--signal); }
+.six b { font: 400 10px/1.2 var(--mono); letter-spacing: .05em; text-transform: uppercase; color: var(--muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.six__v { font: 300 21px/1.1 var(--serif); font-variant-numeric: tabular-nums; white-space: nowrap; }
+.six__v small { font: 400 10px var(--mono); color: var(--muted); }
+/* each instrument performs its measurement */
+.six .g-h2 { transform: translateY(14px); transition: transform 1s var(--ease-out); }
+.six li.on .g-h2, .six li.done .g-h2 { transform: none; }
+.six .g-nd { transform-origin: 20px 24px; transform: rotate(-70deg); transition: transform 1.1s cubic-bezier(.3, 1.6, .5, 1); }
+.six li.on .g-nd, .six li.done .g-nd { transform: rotate(0); }
+.six .g-tp { stroke-dasharray: 1; stroke-dashoffset: 1; transition: stroke-dashoffset 1s var(--ease-out); }
+.six li.on .g-tp, .six li.done .g-tp { stroke-dashoffset: 0; }
+.six .g-th { transform-origin: 20px 27px; transform: scaleY(.1); transition: transform 1.2s var(--ease-out); }
+.six li.on .g-th, .six li.done .g-th { transform: none; }
+.six .g-pl { stroke-dasharray: .35 .65; stroke-dashoffset: 1; }
+.six li.on .g-pl { animation: pulse-run 1.1s linear infinite; }
+.six li.done .g-pl { stroke-dasharray: none; }
+@keyframes pulse-run { to { stroke-dashoffset: 0; } }
+.six .g-r0 { opacity: .25; }
+.six .g-r1 { stroke-dasharray: 1; stroke-dashoffset: 1; transform: rotate(-90deg); transform-origin: 20px 20px; transition: stroke-dashoffset 1.2s var(--ease-out); }
+.six li.on .g-r1, .six li.done .g-r1 { stroke-dashoffset: .02; }
+
+/* ==========================================================================
+   03 WHO
+   ========================================================================== */
+.cell--who { gap: 10px; }
+.cell--who .cell__txt { display: grid; grid-template-columns: minmax(0, 1fr) auto; column-gap: 20px; align-items: end; }
+.cell--who .cell__txt .cell__idx, .cell--who .cell__txt h3 { grid-column: 1; }
+.cell--who .cell__txt p { grid-column: 2; grid-row: 2; margin: 0; max-width: 20ch; font-size: 13px; color: var(--muted); text-align: right; }
+.who { width: 100%; height: auto; max-height: 190px; overflow: visible; }
+.who path { fill: none; }
+.who__fan { fill: rgba(22, 21, 19, .045) !important; opacity: 0; transition: opacity 1.2s var(--ease-out) .6s; }
+.who__p { stroke: rgba(22, 21, 19, .28); stroke-width: .7; stroke-dasharray: 1; stroke-dashoffset: 1; transition: stroke-dashoffset 1.6s var(--ease-out); }
+.who__p:nth-of-type(3) { transition-delay: .08s; } .who__p:nth-of-type(4) { transition-delay: .16s; } .who__p:nth-of-type(5) { transition-delay: .24s; } .who__p:nth-of-type(6) { transition-delay: .32s; }
+.who__p--m { stroke: rgba(22, 21, 19, .5); }
+.who__kid { stroke: var(--signal); stroke-width: 1.3; stroke-linecap: round; stroke-dasharray: 1; stroke-dashoffset: 1; transition: stroke-dashoffset 2.2s var(--ease-io) .9s; }
+.who__dot { fill: var(--signal); opacity: 0; transition: opacity .4s 2.6s; }
+.who__lbl text { font: 400 7.5px var(--mono); fill: var(--muted); opacity: 0; transition: opacity .8s 1.2s; }
+.cell--who.is-play .who__fan, .cell--who.is-play .who__lbl text, .cell--who.is-play .who__dot { opacity: 1; }
+.cell--who.is-play .who__p, .cell--who.is-play .who__kid { stroke-dashoffset: 0; }
+
+/* ==========================================================================
+   04 PASSPORT — a small deck of the record's pages
+   ========================================================================== */
+.pass { position: relative; height: 158px; margin-right: 14%; }
+.pass__card {
+  --p: 0;
+  position: absolute; left: 0; right: 0; top: 0; height: 104px; padding: 14px 16px;
+  display: grid; align-content: start; gap: 6px;
+  background: #fcfbf8; border-radius: 14px;
+  box-shadow: 0 0 0 1px rgba(22, 21, 19, .06), 0 14px 28px -18px rgba(58, 42, 25, .45);
+  transform: translate3d(calc(var(--p) * 16px), calc(var(--p) * 13px), 0) scale(calc(1 - var(--p) * .045));
+  transform-origin: 50% 0; z-index: calc(10 - var(--p));
+  transition: transform .9s var(--ease-out), opacity .6s;
+}
+.pass__card[style*="--p: 4"] { opacity: .5; }
+.pass:hover .pass__card { transform: translate3d(calc(var(--p) * 30px), calc(var(--p) * 11px), 0) rotate(calc(var(--p) * 2.4deg)) scale(calc(1 - var(--p) * .03)); }
+.pass__card.go { animation: pass-go .9s var(--ease-out); }
+@keyframes pass-go { 0% { transform: none; } 45% { transform: translate3d(-8%, -52px, 0) rotate(-5deg); } 100% { transform: translate3d(64px, 52px, 0) scale(.82); } }
+.pass__card small { font: 400 10px/1 var(--mono); letter-spacing: .06em; text-transform: uppercase; color: var(--muted); }
+.pass__card b { font: 400 15px/1.2 var(--sans); }
+.pass__card svg { position: absolute; right: 16px; bottom: 16px; width: 44%; height: 26px; overflow: visible; }
+.pass__card svg path { fill: none; stroke: var(--signal); stroke-width: 1.6; stroke-linecap: round; vector-effect: non-scaling-stroke; }
+.pass__dots { position: absolute; right: 16px; bottom: 18px; display: flex; gap: 6px; }
+.pass__dots i { width: 9px; height: 9px; border-radius: 50%; background: #3f8a5c; }
+.pass__dots i.o { background: none; box-shadow: inset 0 0 0 1.4px var(--signal); }
+.pass__bars { position: absolute; right: 16px; bottom: 16px; display: flex; align-items: flex-end; gap: 5px; height: 28px; }
+.pass__bars i { width: 8px; height: calc(var(--h) * 100%); border-radius: 2px; background: #d9c7a9; }
+.pass__star { position: absolute; right: 18px; bottom: 12px; font: 400 28px/1 var(--serif); color: #e2a93b; font-style: normal; }
+.pass__sig { position: absolute; right: 18px; bottom: 20px; width: 70px; height: 14px; border-bottom: 1.5px solid var(--ink-2); border-radius: 0 0 50% 40%; transform: skewX(-18deg); opacity: .7; }
+
+/* ==========================================================================
+   05 PLAIN WORDS
+   ========================================================================== */
+.insight { padding: 16px 18px 18px; border-radius: 16px 16px 16px 4px; background: #fcfbf8; box-shadow: 0 0 0 1px rgba(22, 21, 19, .06), 0 14px 28px -20px rgba(58, 42, 25, .4); min-height: 128px; }
+.insight__who { display: inline-flex; align-items: center; gap: 8px; font: 400 10px/1 var(--mono); letter-spacing: .06em; text-transform: uppercase; color: var(--muted); }
+.insight__who i { width: 7px; height: 7px; border-radius: 50%; background: var(--signal); animation: breathe 2.4s ease-in-out infinite; }
+@keyframes breathe { 50% { transform: scale(.55); opacity: .5; } }
+.insight__txt { margin-top: 10px; font: 300 18.5px/1.38 var(--serif); letter-spacing: -.005em; min-height: 3.9em; }
+.insight__txt::after { content: ""; display: inline-block; width: 1.5px; height: 1em; margin-left: 2px; vertical-align: -.12em; background: var(--signal); animation: caret 1s steps(1) infinite; }
+@keyframes caret { 50% { opacity: 0; } }
+
+/* ==========================================================================
+   06 THE PAEDIATRICIAN — a report travels, the doctor receives it
+   ========================================================================== */
+.cell--doc { background: linear-gradient(160deg, #f4f1eb 40%, #f1e9df); }
+.loop { width: 100%; height: auto; overflow: visible; }
+.loop__arc { fill: none; stroke: rgba(22, 21, 19, .3); stroke-width: 1; stroke-dasharray: 3 4; vector-effect: non-scaling-stroke; }
+.loop__node circle { fill: #fcfbf8; stroke: rgba(22, 21, 19, .16); stroke-width: 1; }
+.loop__node path { fill: none; stroke: var(--ink-2); stroke-width: 1.4; stroke-linecap: round; }
+.loop__node--doc circle:first-child { transform-origin: center; transform-box: fill-box; }
+.loop__node--doc > circle:last-child { fill: none; stroke: var(--ink-2); }
+.loop__pkt rect { fill: #fff; stroke: var(--signal); stroke-width: 1.3; }
+.loop__pkt path { stroke: var(--signal); stroke-width: 1.2; stroke-linecap: round; }
+.loop__lbl { font: 400 8.5px var(--mono); fill: var(--muted); text-anchor: middle; letter-spacing: .06em; text-transform: uppercase; }
+.loop__ok { display: inline-flex; align-items: center; gap: 8px; font: 400 11px/1 var(--mono); color: var(--ink-2); opacity: 0; }
+.loop__ok i { width: 7px; height: 7px; border-radius: 50%; background: #3f8a5c; }
+/* declared always and only paused off screen, so the CSS beats stay in step with the SVG motion */
+.cell--doc .loop__node--doc circle:first-child { animation: doc-hit 3.6s var(--ease-out) infinite; }
+.cell--doc .loop__ok { animation: doc-ok 3.6s var(--ease-out) infinite; }
+@keyframes doc-hit { 0%, 68% { transform: scale(1); stroke: rgba(22, 21, 19, .16); } 74% { transform: scale(1.14); stroke: var(--signal); } 90%, 100% { transform: scale(1); stroke: rgba(22, 21, 19, .16); } }
+@keyframes doc-ok { 0%, 70% { opacity: 0; transform: translateY(6px); } 78%, 94% { opacity: 1; transform: none; } 100% { opacity: 0; } }
+.cell--doc:not(.is-play) * { animation-play-state: paused !important; }
+
+/* ==========================================================================
+   Responsive
+   ========================================================================== */
+@media (max-width: 1100px) {
+  .bento { grid-template-columns: repeat(6, minmax(0, 1fr)); grid-template-areas: "pace pace pace pace pace pace" "six six six who who who" "pass pass pass words words words" "doc doc doc doc doc doc"; }
+  .cell--pace { min-height: 520px; }
+  .cell--who .cell__txt { grid-template-columns: 1fr; }
+  .cell--who .cell__txt p { grid-column: 1; grid-row: auto; text-align: left; margin-top: 8px; }
+  .cell--doc { flex-direction: row; align-items: center; }
+  .cell--doc .loop { max-width: 380px; }
+}
+@media (max-width: 760px) {
+  .why { padding-top: 110px; }
+  .why__head { grid-template-columns: 1fr; row-gap: 20px; }
+  .why__head .kicker { margin-bottom: 4px; }
+  .why__title { font-size: clamp(40px, 11vw, 56px); }
+  .bento { grid-template-columns: 1fr; grid-template-areas: "pace" "six" "who" "pass" "words" "doc"; gap: 12px; }
+  .cell { min-height: 0; border-radius: 20px; }
+  .cell--pace { min-height: 480px; }
+  .cell--pace h3 { font-size: clamp(26px, 7.4vw, 34px); }
+  .pace__read { position: static; justify-content: flex-start; text-align: left; margin-bottom: 14px; }
+  .pace__max { display: none !important; }
+  .pace__svg { height: 200px; }
+  .cell__hint { margin-left: 0; flex-basis: 100%; }
+  .six { gap: 16px 8px; }
+  .six li { grid-template-columns: 1fr; row-gap: 6px; }
+  .six svg { grid-row: auto; }
+  .cell--doc { flex-direction: column; align-items: stretch; }
+  .pass { margin-right: 18%; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .js .cell, .js .cell > * { opacity: 1 !important; transform: none !important; clip-path: none !important; transition: none !important; }
+  .six li { opacity: 1; }
+  .pass__card.go, .six li.on .g-pl, .insight__who i, .insight__txt::after { animation: none !important; }
+}
+
+/* ---- small artifacts: a syringe on the vaccines page, a plaster on the note ---- */
+.pass__jab { position: absolute; left: 16px; bottom: 14px; width: 62px; height: 24px; overflow: visible; }
+.pass__jab path { fill: none; stroke: var(--ink-2); stroke-width: 1.4; stroke-linecap: round; }
+.pass__jab .pass__marks { stroke-width: 1; opacity: .5; }
+.pass__plunge { transition: transform .9s cubic-bezier(.5, 0, .2, 1); }
+.pass__card.front .pass__plunge { transform: translateX(-9px); transition-delay: .5s; }
+.pass__drop { fill: var(--signal); opacity: 0; }
+.pass__card.front .pass__drop { animation: jab-drop 1.6s ease-in 1.3s both; }
+@keyframes jab-drop { 0% { opacity: 0; transform: translateY(-2px); } 30% { opacity: 1; transform: none; } 80% { opacity: 1; transform: translateY(4px); } 100% { opacity: 0; transform: translateY(7px); } }
+/* the plaster: stuck on at an angle, it lifts at one end when you point at it */
+.insight { position: relative; }
+.plaster {
+  position: absolute; right: -10px; top: -12px; width: 58px; height: 20px; border-radius: 10px;
+  background: linear-gradient(90deg, #e7c9a5, #efd5b4 50%, #e7c9a5);
+  box-shadow: 0 1px 1px rgba(58, 42, 25, .18), 0 6px 10px -6px rgba(58, 42, 25, .35), inset 0 1px 0 rgba(255, 255, 255, .45);
+  transform: rotate(24deg); transform-origin: 20% 50%; transition: transform .6s cubic-bezier(.2, 1.4, .35, 1);
+}
+.plaster::before { content: ""; position: absolute; inset: 0; border-radius: inherit; background: radial-gradient(circle, rgba(120, 80, 40, .22) .9px, transparent 1.2px) 0 0 / 5px 5px; }
+.plaster i { position: absolute; left: 19px; right: 19px; top: 3px; bottom: 3px; border-radius: 3px; background: #f5e6d3; box-shadow: inset 0 0 0 1px rgba(120, 80, 40, .12); }
+.cell--words:hover .plaster { transform: rotate(18deg) translateY(-2px) skewX(-6deg); }
