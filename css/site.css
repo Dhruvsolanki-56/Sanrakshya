@@ -88,13 +88,17 @@ a:hover .roll > span + span,
 /* The paper surface appears only once the page has left the hero */
 .nav::before {
   content: ""; position: absolute; inset: 0;
-  background: color-mix(in srgb, var(--paper) 94%, transparent);
-  box-shadow: 0 1px 0 var(--line-2);
-  -webkit-backdrop-filter: saturate(1.2) blur(14px);
-  backdrop-filter: saturate(1.2) blur(14px);
+  /* frosted paper: the page softens behind it instead of vanishing */
+  background: linear-gradient(rgba(255, 253, 248, .38), rgba(255, 253, 248, .12)), color-mix(in srgb, var(--paper) 58%, transparent);
+  box-shadow: 0 1px 0 rgba(22, 21, 19, .07), inset 0 -1px 0 rgba(255, 255, 255, .4), 0 12px 30px -24px rgba(58, 42, 25, .35);
+  -webkit-backdrop-filter: saturate(1.6) blur(20px);
+  backdrop-filter: saturate(1.6) blur(20px);
   opacity: 0; transition: opacity .5s var(--ease-out);
 }
 .nav[data-solid="true"]::before { opacity: 1; }
+/* with the menu open, the menu has its own ways to get in touch */
+.nav__cta { transition: opacity .4s var(--ease-out); }
+.nav:has(.nav__menu[aria-expanded="true"]) .nav__cta { opacity: 0; pointer-events: none; }
 
 .nav__bar {
   position: relative; height: 100%;
@@ -188,14 +192,14 @@ a:hover .roll > span + span,
 .menu.is-closing { transition-duration: .5s; }
 .menu__inner {
   min-height: 100%;
-  display: grid; grid-template-columns: 1.6fr 1fr; gap: 40px;
-  padding: calc(var(--nav-h) + 6vh) var(--pad) 40px;
+  display: grid; grid-template-columns: minmax(0, 1.7fr) minmax(0, 1fr); column-gap: 7vw;
+  padding: calc(var(--nav-h) + 4vh) var(--pad) 5vh;
 }
 .menu__list { border-top: 1px solid var(--line); }
 .menu__list li { border-bottom: 1px solid var(--line); overflow: hidden; }
 .menu__list a {
   display: grid; grid-template-columns: 56px 1fr auto; align-items: baseline; gap: 12px;
-  padding: 18px 0 16px;
+  padding: clamp(10px, 1.8vh, 18px) 0 clamp(9px, 1.6vh, 16px);
   transform: translateY(105%);
   transition: transform .9s var(--ease-out);
 }
@@ -205,22 +209,27 @@ a:hover .roll > span + span,
 .menu.is-open .menu__list li:nth-child(3) a { transition-delay: .28s; }
 .menu.is-open .menu__list li:nth-child(4) a { transition-delay: .33s; }
 .menu.is-open .menu__list li:nth-child(5) a { transition-delay: .38s; }
+.menu.is-open .menu__list li:nth-child(6) a { transition-delay: .43s; }
 .menu.is-closing .menu__list a { transition-duration: .35s; transition-delay: 0s !important; transform: translateY(-105%); }
 .menu__idx { font: 400 11px/1 var(--mono); color: var(--muted); }
 .menu__lbl {
-  font: 300 clamp(38px, 5.4vw, 76px)/1 var(--serif); letter-spacing: -.025em;
+  font: 300 clamp(34px, min(5.4vw, 7.2vh), 76px)/1 var(--serif); letter-spacing: -.025em;
   font-variation-settings: "opsz" 72;
   transition: transform .6s var(--ease-out);
 }
 .menu__note { font: 400 12px/1.3 var(--mono); color: var(--muted); text-align: right; }
 .menu__list a:hover .menu__lbl { transform: translateX(10px); font-style: italic; }
 .menu__aside {
-  align-self: end; display: grid; gap: 14px; justify-items: start;
+  align-self: stretch; display: flex; flex-direction: column; justify-content: space-between; gap: 40px;
+  padding-top: 4px;
   opacity: 0; transform: translateY(10px); transition: opacity .6s var(--ease-out), transform .8s var(--ease-out);
 }
 .menu.is-open .menu__aside { opacity: 1; transform: none; transition-delay: .45s; }
 .menu__kicker { font: 400 11px/1 var(--mono); color: var(--muted); letter-spacing: .06em; text-transform: uppercase; }
-.menu__contact { font: 300 30px/1.1 var(--serif); letter-spacing: -.02em; border-bottom: 1px solid var(--line); padding-bottom: 6px; }
+.menu__reach { display: grid; gap: 4px; justify-items: stretch; }
+.menu__reach .menu__kicker { margin-bottom: 14px; }
+.menu__contact { display: flex; justify-content: space-between; align-items: baseline; font: 300 clamp(22px, 2vw, 30px)/1.1 var(--serif); letter-spacing: -.02em; border-bottom: 1px solid var(--line); padding: 14px 0 12px; transition: color .4s; }
+.menu__contact:hover { color: var(--signal); }
 .menu__contact span { display: inline-block; transition: transform .5s var(--ease-out); }
 .menu__contact:hover span { transform: translateX(6px); }
 .menu__legal { font: 400 12px/1.5 var(--sans); color: var(--muted); max-width: 30ch; }

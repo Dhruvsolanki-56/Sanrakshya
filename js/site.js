@@ -20,7 +20,7 @@
   /* ------------------------------------------------------------------ */
   /* Scroll state: section progress, nav compact / hidden / solid          */
   /* ------------------------------------------------------------------ */
-  let lastY = scrollY, ticking = false, menuOpen = false;
+  let lastY = scrollY, ticking = false, menuOpen = false, lastDir = 0, turnY = scrollY;
 
   // how far before its end a section is overlapped by the next one (its negative margin plus the
   // opaque part of the paper band above it). Pinned stories finish their beats before that point.
@@ -61,10 +61,13 @@
       const inStation = y > sTop - 10 && y < storyEnd - 10;
       nav.dataset.compact = String(y > innerHeight * 0.12);
       nav.dataset.solid = String(pastHero && !inStation);
-      const dy = y - lastY;
-      // reading down, the bar steps out of the way; any scroll up brings it back
-      if (pastHero && !inStation && dy > 6 && y > innerHeight) nav.dataset.hidden = 'true';
-      else if (dy < -6 || !pastHero || inStation) nav.dataset.hidden = 'false';
+      // reading down, the bar steps out of the way; scrolling back up brings it back. Judged by
+      // distance travelled since the direction last changed, so a slow scroll counts too.
+      const dir = Math.sign(y - lastY);
+      if (dir && dir !== lastDir) { turnY = lastY; lastDir = dir; }
+      const travel = y - turnY;
+      if (pastHero && !inStation && travel > 60 && y > innerHeight) nav.dataset.hidden = 'true';
+      else if (travel < -40 || !pastHero || inStation) nav.dataset.hidden = 'false';
     }
     lastY = y;
     ticking = false;
@@ -78,9 +81,9 @@
     requestAnimationFrame(tick);
     lenis.on('scroll', measure);
     SR.lenis = lenis;
-  } else {
-    addEventListener('scroll', () => { if (!ticking) { ticking = true; requestAnimationFrame(measure); } }, { passive: true });
   }
+  // native scroll as well: jumps and touch scrolling Lenis did not start still update the bar
+  addEventListener('scroll', () => { if (!ticking) { ticking = true; requestAnimationFrame(measure); } }, { passive: true });
   addEventListener('resize', measure);
   measure();
 
