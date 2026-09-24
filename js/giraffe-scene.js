@@ -16,6 +16,7 @@ import {
   cyclorama, windowLight, createLens, applyShift, createLoop, warmUp,
 } from './studio.js';
 import { buildRabbit, buildOwl } from './toys.js';
+import { nursery } from './room.js';
 
 const TAU = Math.PI * 2;
 
@@ -222,7 +223,7 @@ export function initGiraffe({ stage, canvas, annot, hint, words, growButton, onT
   const renderer = makeRenderer(canvas, { hi, still });
   const scene = new THREE.Scene();
   studioEnvironment(renderer, scene, 0.55);
-  scene.add(cyclorama({ cz: -0.55, R: 0.9 }));
+  scene.add(nursery({ wallZ: -0.85, chartX: 0.42 }));    // the toys stand in a child's room
   const key = windowLight(scene, { hi, intensity: 42, position: [-2.2, 2.1, 1.7], target: [0.35, 0.35, -1.1], angle: 0.42 });
   key.shadow.camera.near = 1; key.shadow.camera.far = 6;
   const lens = createLens(renderer, hi && params.get('post') !== '0');
